@@ -73,7 +73,7 @@ while True:
            "explosion": explosion_sound,
            "enemy_hit": enemy_hit_sound
         }
-        game = Game(
+        game =  Game(
           screen, None, ghost, ghost2, 
           platform_images,
           background, explode_picture, 
