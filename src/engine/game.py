@@ -101,6 +101,7 @@ class Game:
         self.camera = Camera(self.screen, self.platforms, self.shot_bullets, self.Roboman, self.explosions, self.scroll, self.ninja, self.terrorists[0], self.gates, self.background, self.drones, self.Objects, self.gunmans,self.archer,self.dragonlord,self.flyingdemons[0],self.bomb,self.defuse_kit)
         self.enemies = self.terrorists + self.gunmans + self.drones + self.flyingdemons
         self.input_handler = InputHandler(self.Roboman, self.bullet_class, self.shot_bullets)
+        self.dragonlord.camera=self.camera
 
     def remove_bullet(self, bullet):
         if bullet in self.shot_bullets:

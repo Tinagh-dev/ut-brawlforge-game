@@ -49,7 +49,7 @@ class Dragon_Lord:
         self.last_attack_time = 0
         self.last_damage_time = 0
         self.prompt_type = "idle"
-        self.start_dialog_loop()
+        #self.start_dialog_loop()
         self.idle_frames = [
             pygame.transform.scale(pygame.image.load(os.path.join(base_path, "idle", f"{i}.png")), (w, 180))
             for i, w in enumerate([137, 143, 150, 143])
@@ -66,8 +66,9 @@ class Dragon_Lord:
         ]
 
         self.current_picture = self.idle_frames[0]
+        self.camera=None
 
-        self.start_dialog_loop()
+        #self.start_dialog_loop()
     def get_prompt(self):
         if self.prompt_type == "attack":
             return f"Dragon Lord is unleashing a blazing punch at the player at ({self.target.x_pos}, {self.target.y_pos})."
@@ -214,6 +215,8 @@ class Dragon_Lord:
         self.attack_hits = 0
         self.prompt_type = "attack"
         self.last_attack_time = time.time()
+        self.camera.activate_spotlight()
+        
 
     def check_attack_collision(self):
         if self.hitbox.colliderect(self.target.hitbox):
@@ -249,3 +252,7 @@ class Dragon_Lord:
             self.move_right()
         elif self.target.x_pos < self.x_pos:
             self.move_left()
+            
+            
+    def Active_spot_light_effect(self):
+        self.camera.activate_spotlight()
