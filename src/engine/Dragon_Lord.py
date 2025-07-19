@@ -1,8 +1,18 @@
 import pygame
 import os
+from openai import OpenAI
+import threading
+import time
 
+client = OpenAI(
+    api_key="tpsg-2pMQn399nKMGRcOpaBXAentWTdEPkbA",
+    base_url="https://api.metisai.ir/openai/v1"
+)
 class Dragon_Lord:
     def __init__(self, x, y, target):
+        self.dialog_thread = None
+        self.keep_talking = True
+
         self.x_pos = x
         self.y_pos = y
         self.width = 150
@@ -27,7 +37,7 @@ class Dragon_Lord:
 
         self.attacking = False
         self.attack_hits = 0
-
+        self.prompt = f"Dragon Lord has {self.health} HP. Player is at ({self.target.x_pos}, {self.target.y_pos})."
         self.status = 'idle'
         self.current_picture = None
         self.current_frame_index = 0
@@ -36,7 +46,10 @@ class Dragon_Lord:
         self.is_moving_horizontally = False
 
         base_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "images", "Dragon_Lord")
-
+        self.last_attack_time = 0
+        self.last_damage_time = 0
+        self.prompt_type = "idle"
+        self.start_dialog_loop()
         self.idle_frames = [
             pygame.transform.scale(pygame.image.load(os.path.join(base_path, "idle", f"{i}.png")), (w, 180))
             for i, w in enumerate([137, 143, 150, 143])
@@ -53,6 +66,48 @@ class Dragon_Lord:
         ]
 
         self.current_picture = self.idle_frames[0]
+
+        self.start_dialog_loop()
+    def get_prompt(self):
+        if self.prompt_type == "attack":
+            return f"Dragon Lord is unleashing a blazing punch at the player at ({self.target.x_pos}, {self.target.y_pos})."
+        elif self.prompt_type == "damage":
+            return f"Dragon Lord landed a fiery hit! Player health is now {self.target.health}."
+        else:
+            return f"Dragon Lord has {self.health} HP. Player is at ({self.target.x_pos}, {self.target.y_pos})."
+    def say_dialog_loop(self):
+        while self.keep_talking:
+            try:
+                self.prompt = self.get_prompt()
+                response = client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "You are a menacing game boss named Dragon Lord. Speak in short, taunting lines to the player."
+                        },
+                        {
+                            "role": "user",
+                            "content": self.prompt
+                        }
+                    ],
+                    max_tokens=50,
+                    temperature=0.7
+                )
+                print("Dragon Lord says:", response.choices[0].message.content.strip())
+            except Exception as e:
+                print(f"[Error getting dialog: {e}]")
+
+            time.sleep(8)
+            self.prompt_type = "idle"  
+
+    def start_dialog_loop(self):
+        if self.dialog_thread is None or not self.dialog_thread.is_alive():
+            self.dialog_thread = threading.Thread(target=self.say_dialog_loop, daemon=True)
+            self.dialog_thread.start()
+
+    def stop_dialog_loop(self):
+        self.keep_talking = False
 
     def display(self, screen, offset):
         image = self.current_picture
@@ -157,19 +212,21 @@ class Dragon_Lord:
         self.status = 'attack'
         self.current_frame_index = 0
         self.attack_hits = 0
+        self.prompt_type = "attack"
+        self.last_attack_time = time.time()
 
     def check_attack_collision(self):
         if self.hitbox.colliderect(self.target.hitbox):
-            if self.Look=='right':
+            if self.Look == 'right':
                 self.target.move_right(6)
             else:
                 self.target.move_left(6)
-            
-        if self.hitbox.colliderect(self.target.hitbox) and self.attack_hits < 3 and ((self.current_frame_index>=4 and self.current_frame_index<=10) or(self.current_frame_index>=13 and self.current_frame_index<=15)):
+
+        if self.hitbox.colliderect(self.target.hitbox) and self.attack_hits < 3 and ((self.current_frame_index >= 4 and self.current_frame_index <= 10) or (self.current_frame_index >= 13 and self.current_frame_index <= 15)):
             self.target.health -= 30
             self.attack_hits += 1
-            
-                
+            self.prompt_type = "damage"
+            self.last_damage_time = time.time()
 
     def Update(self, keys, platforms):
         self.update_animation()
@@ -184,9 +241,9 @@ class Dragon_Lord:
             return
 
         distance_x = abs(self.target.x_pos - self.x_pos)
-        distance_y= abs(self.target.y_pos - self.y_pos)
+        distance_y = abs(self.target.y_pos - self.y_pos)
 
-        if distance_x <= 90 and distance_y<200:
+        if distance_x <= 90 and distance_y < 200:
             self.attack()
         elif self.target.x_pos > self.x_pos:
             self.move_right()
