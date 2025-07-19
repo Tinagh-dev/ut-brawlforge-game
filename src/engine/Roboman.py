@@ -419,31 +419,31 @@ class Roboman:
             self.horizontal_move()
             self.hitbox.topleft = (self.x_pos, self.y_pos)
 
-    def move_right(self):
+    def move_right(self,powerup=1):
         if self.RunShoot and self.allow_move_right:
-            self.x_pos += self.horizontal_speed
+            self.x_pos += self.horizontal_speed*powerup
             self.is_moving_horizontally = True
             self.Look = 'right'
             self.hitbox.topleft = (self.x_pos, self.y_pos)
             self.fall_from_platform()
 
         elif self.allow_move_right and not (self.is_shooting and not self.is_moving_horizontally):
-            self.x_pos += self.horizontal_speed
+            self.x_pos += self.horizontal_speed*powerup
             self.is_moving_horizontally = True
             self.Look = 'right'
             self.hitbox.topleft = (self.x_pos, self.y_pos)
             self.fall_from_platform()
 
-    def move_left(self):
+    def move_left(self,powerup=1):
         if self.RunShoot and self.allow_move_left:
-            self.x_pos -= self.horizontal_speed
+            self.x_pos -= self.horizontal_speed*powerup
             self.is_moving_horizontally = True
             self.Look = 'left'
             self.hitbox.topleft = (self.x_pos, self.y_pos)
             self.fall_from_platform()
             
         elif self.allow_move_left and not (self.is_shooting and not self.is_moving_horizontally):
-            self.x_pos -= self.horizontal_speed
+            self.x_pos -= self.horizontal_speed*powerup
             self.is_moving_horizontally = True
             self.Look = 'left'
             self.hitbox.topleft = (self.x_pos, self.y_pos)

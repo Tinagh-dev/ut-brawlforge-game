@@ -2,11 +2,13 @@ import pygame
 import os
 
 class Dragon_Lord:
-    def __init__(self, x, y,target):
+    def __init__(self, x, y, target):
         self.x_pos = x
         self.y_pos = y
         self.width = 150
         self.height = 180
+
+        self.target = target
 
         self.on_platform = False
         self.current_platform = None
@@ -23,13 +25,9 @@ class Dragon_Lord:
         self.health = 63
         self.max_health = 100
 
-        self.target = target
-
-        # Attack state
         self.attacking = False
         self.attack_hits = 0
 
-        # Animation attributes
         self.status = 'idle'
         self.current_picture = None
         self.current_frame_index = 0
@@ -37,7 +35,6 @@ class Dragon_Lord:
         self.last_frame_update_time = pygame.time.get_ticks()
         self.is_moving_horizontally = False
 
-        # Load sprites
         base_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "images", "Dragon_Lord")
 
         self.idle_frames = [
@@ -86,12 +83,6 @@ class Dragon_Lord:
                 self.attack_hits = 0
                 self.status = 'idle'
                 self.current_frame_index = 0
-                
-            if self.current_frame_index==4 or self.current_frame_index==8  or self.current_frame_index==13 :
-                if self.Look=='right' and self.allow_move_right:
-                    self.x_pos+=6
-                elif self.allow_move_left:
-                    self.x_pos-=6
             return
 
         if self.status == 'walk':
@@ -102,23 +93,12 @@ class Dragon_Lord:
         self.current_frame_index = (self.current_frame_index + 1) % len(frames)
         self.current_picture = frames[self.current_frame_index]
 
-    def handle_input(self, keys):
-            self.is_moving_horizontally = False
-            if keys[pygame.K_n] and not self.attacking:
-                self.attack()
-            elif keys[pygame.K_m]:
-                self.move_right()
-            elif keys[pygame.K_b]:
-                self.move_left()
-            else:
-                if not self.attacking:
-                    self.status = 'idle'
-
     def move_right(self):
         if self.allow_move_right and not self.attacking:
             self.x_pos += self.horizontal_speed
             self.Look = 'right'
             self.status = 'walk'
+            self.is_moving_horizontally = True
             self.hitbox.topleft = (self.x_pos, self.y_pos)
             self.fall_from_platform()
 
@@ -127,6 +107,7 @@ class Dragon_Lord:
             self.x_pos -= self.horizontal_speed
             self.Look = 'left'
             self.status = 'walk'
+            self.is_moving_horizontally = True
             self.hitbox.topleft = (self.x_pos, self.y_pos)
             self.fall_from_platform()
 
@@ -178,14 +159,36 @@ class Dragon_Lord:
         self.attack_hits = 0
 
     def check_attack_collision(self):
-        if self.hitbox.colliderect(self.target.hitbox) and self.attack_hits < 3:
+        if self.hitbox.colliderect(self.target.hitbox):
+            if self.Look=='right':
+                self.target.move_right(6)
+            else:
+                self.target.move_left(6)
+            
+        if self.hitbox.colliderect(self.target.hitbox) and self.attack_hits < 3 and ((self.current_frame_index>=4 and self.current_frame_index<=10) or(self.current_frame_index>=13 and self.current_frame_index<=15)):
             self.target.health -= 30
             self.attack_hits += 1
+            
+                
 
-    def Update(self,keys,platforms):
-        self.handle_input(keys)
+    def Update(self, keys, platforms):
         self.update_animation()
         self.gravity()
         self.vertical_move()
         self.horizontal_move()
         self.platforms_collisions(platforms)
+        self.AI_behavior()
+
+    def AI_behavior(self):
+        if self.attacking:
+            return
+
+        distance_x = abs(self.target.x_pos - self.x_pos)
+        distance_y= abs(self.target.y_pos - self.y_pos)
+
+        if distance_x <= 90 and distance_y<200:
+            self.attack()
+        elif self.target.x_pos > self.x_pos:
+            self.move_right()
+        elif self.target.x_pos < self.x_pos:
+            self.move_left()

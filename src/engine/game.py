@@ -9,7 +9,7 @@ from src.engine.platform import Platform
 from src.engine.explosion import Explosion
 from src.engine.camera import Camera
 from src.engine.input_handler import InputHandler
-from src.levels import level_1_data, load_level_data
+from src.levels import level_1_data, load_level_data,Boss_fight_level
 from src.engine.Ninja import Ninja
 from src.engine.menu import PauseMenu
 from src.engine.defuse_kit import DefuseKit
@@ -34,6 +34,7 @@ class Game:
         self.sounds = sounds
         
         player_start_pos = level_1_data['player_start']
+        player_pos2=Boss_fight_level['player_start']
         self.Roboman = Roboman(
             player_start_pos['x'], player_start_pos['y'],
             roboman_health_bar_frame, roboman_health_bar, hero_profile_picture,
@@ -46,7 +47,7 @@ class Game:
             trigger_shutter_callback=self.trigger_jetpack_shutter
         )
         self.ninja = NinjaGirl(
-            player_start_pos['x'] + 100, player_start_pos['y'],
+            player_pos2['x'] + 100, player_start_pos['y'],
             screen_width, screen_height,
             [self.Roboman],
             ninja_health_bar_frame, ninja_health_bar
@@ -56,7 +57,7 @@ class Game:
         self.bomb = Bomb(player_start_pos['x'] + 100, player_start_pos['y'] - 500, targets=[self.ninja]) 
         self.defuse_kit=DefuseKit(player_start_pos['x'] + 100, player_start_pos['y'] - 270, targets=[self.ninja])
 
-        self.platforms = load_level_data(level_1_data, platform_image)
+        self.platforms = load_level_data(Boss_fight_level, platform_image)
         self.screen_color = (60, 100, 150)
 
         self.scroll = [0, 0]
@@ -89,7 +90,7 @@ class Game:
             Pumpkin(player_start_pos['x'] + 100, player_start_pos['y'] - 270, [self.ninja, self.Roboman]),
             PowerBox(player_start_pos['x'] + 700, player_start_pos['y'] + 65, [self.Roboman, self.ninja])
         ]
-        self.dragonlord=Dragon_Lord(player_start_pos['x'] -200, player_start_pos['y']-62,self.ninja)
+        self.dragonlord=Dragon_Lord(player_pos2['x'] -200, player_start_pos['y']-62,self.ninja)
 
         self.shutter_strength = 0
         self.shutter_start_time = 0

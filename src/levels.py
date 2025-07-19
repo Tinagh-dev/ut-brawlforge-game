@@ -87,7 +87,7 @@ level_1_data = {
 
 
 Boss_fight_level={
-    'player_start': {'x': 58*64, 'y':400},
+    'player_start': {'x': 58*64+10000- 52*TILE_SIZE, 'y':400},
     'enemies': [
         
     ],
@@ -123,22 +123,40 @@ Boss_fight_level={
 
         ],
         'solid': [
-            {'x': 0, 'y': 9 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 10 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 11 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 12 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 13 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 14 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 15 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 16 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 17 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 18 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 19 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 20 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 21 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 22 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 23 * TILE_SIZE, 'repeat':60},
-            {'x': 0, 'y': 24 * TILE_SIZE, 'repeat':60},
+            {'x': 10000, 'y': 0 * TILE_SIZE, 'repeat':1},
+            {'x': 10000, 'y': 1 * TILE_SIZE, 'repeat':1},
+            {'x': 10000, 'y': 2 * TILE_SIZE, 'repeat':1},
+            {'x': 10000, 'y': 3 * TILE_SIZE, 'repeat':1},
+            {'x': 10000, 'y': 4 * TILE_SIZE, 'repeat':1},
+            {'x': 10000, 'y': 5 * TILE_SIZE, 'repeat':1},
+            {'x': 10000, 'y': 6 * TILE_SIZE, 'repeat':1},
+            {'x': 10000, 'y': 7 * TILE_SIZE, 'repeat':1},
+            {'x': 10000, 'y': 8 * TILE_SIZE, 'repeat':1},
+            {'x': 10000, 'y': 9 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 10 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 11 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 12 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 13 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 14 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 15 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 16 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 17 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 18 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 19 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 20 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 21 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 22 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 23 * TILE_SIZE, 'repeat':60},
+            {'x':  10000, 'y': 24 * TILE_SIZE, 'repeat':60},
+            {'x': 10000+30*TILE_SIZE, 'y': 0 * TILE_SIZE, 'repeat':1},
+            {'x': 10000+30*TILE_SIZE, 'y': 1 * TILE_SIZE, 'repeat':1},
+            {'x': 10000+30*TILE_SIZE, 'y': 2 * TILE_SIZE, 'repeat':1},
+            {'x': 10000+30*TILE_SIZE, 'y': 3 * TILE_SIZE, 'repeat':1},
+            {'x': 10000+30*TILE_SIZE, 'y': 4 * TILE_SIZE, 'repeat':1},
+            {'x': 10000+30*TILE_SIZE, 'y': 5 * TILE_SIZE, 'repeat':1},
+            {'x': 10000+30*TILE_SIZE, 'y': 6 * TILE_SIZE, 'repeat':1},
+            {'x': 10000+30*TILE_SIZE, 'y': 7 * TILE_SIZE, 'repeat':1},
+            {'x': 10000+30*TILE_SIZE, 'y': 8 * TILE_SIZE, 'repeat':1}
 
             
             

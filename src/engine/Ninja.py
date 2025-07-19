@@ -37,7 +37,7 @@ class Ninja:
         self.width = Ninja_width
         self.height = Ninja_height
         self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
-        self.health = 100
+        self.health = 600
         self.max_health = 100
         self.bullets = []
         self.last_shot_time = 0
@@ -81,6 +81,9 @@ class Ninja:
         self.MOVEWITHATTACKFLAG=True
         self.has_defuse_kit=False
 
+
+
+        
 
         
         #Super power attributes:
@@ -461,17 +464,17 @@ class Ninja:
             self.horizontal_auto_speed = 2.5 * self.current_platform.direction
             self.horizontal_move()
 
-    def move_right(self):
+    def move_right(self,powerup=1):
         if self.allow_move_right and self.status not in ["throw"] and self.status!='attack':
-            self.x_pos += self.horizontal_speed*self.Super_cofficent
+            self.x_pos += self.horizontal_speed*self.Super_cofficent*powerup
             self.is_moving_horizontally = True
             self.Look = 'right'
             self.hitbox.topleft = (self.x_pos, self.y_pos)
             self.fall_from_platform()
 
-    def move_left(self):
+    def move_left(self,powerup=1):
         if self.allow_move_left  and self.status not in ["throw"] and self.status!='attack':
-            self.x_pos -= self.horizontal_speed*self.Super_cofficent
+            self.x_pos -= self.horizontal_speed*self.Super_cofficent*powerup
             self.is_moving_horizontally = True
             self.Look = 'left'
             self.hitbox.topleft = (self.x_pos, self.y_pos)

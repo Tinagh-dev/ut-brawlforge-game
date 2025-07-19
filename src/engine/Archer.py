@@ -339,17 +339,17 @@ class Archer:
             self.hitbox.topleft = (self.x_pos, self.y_pos)
             self.horizontal_move()
 
-    def move_right(self):
+    def move_right(self,powerup=1):
         if self.allow_move_right:
-            self.x_pos += self.horizontal_speed
+            self.x_pos += self.horizontal_speed*powerup
             self.is_moving_horizontally = True
             self.Look = 'right'
             self.hitbox.topleft = (self.x_pos, self.y_pos)
             self.fall_from_platform()
 
-    def move_left(self):
+    def move_left(self,powerup=1):
         if self.allow_move_left:
-            self.x_pos -= self.horizontal_speed
+            self.x_pos -= self.horizontal_speed*powerup
             self.is_moving_horizontally = True
             self.Look = 'left'
             self.hitbox.topleft = (self.x_pos, self.y_pos)
