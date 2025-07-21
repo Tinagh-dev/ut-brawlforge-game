@@ -83,11 +83,11 @@ class Camera:
         if self.spotlight_active:
             elapsed = time.time() - self.spotlight_start_time
             if elapsed < self.spotlight_duration:
-                self.draw_spotlight_on_ninja()
+                self.draw_spotlight_on_player()
             else:
                 self.spotlight_active = False  # Turn off spotlight after 3 sec
 
-    def draw_spotlight_on_ninja(self):
+    def draw_spotlight_on_player(self):
         spotlight_surface = pygame.Surface((screen_width, screen_height), pygame.SRCALPHA)
         spotlight_surface.fill((0, 0, 0, 255))
 

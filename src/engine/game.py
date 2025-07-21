@@ -9,7 +9,7 @@ from src.engine.camera import Camera
 from src.engine.input_handler import InputHandler
 from src.engine.Ninja import Ninja
 from src.engine.menu import PauseMenu
-from src.levels import level_1_data, load_level_data, build_enemies, build_objects, apply_targets_to_enemies
+from src.levels import level_1_data,Boss_fight_level, load_level_data, build_enemies, build_objects, apply_targets_to_enemies
 from src.engine.power_ups import Power_up
 
 class Game:
@@ -30,7 +30,7 @@ class Game:
         self.shutter_start_time = 0
         self.shutter_duration = 150
 
-        player_start_pos = level_1_data['player_start']
+        player_start_pos = Boss_fight_level['player_start']
 
         self.hero = Ninja(
             player_start_pos['x'], player_start_pos['y'],
@@ -38,9 +38,9 @@ class Game:
             [],  # لیست targets بعداً ست می‌شود
         )
 
-        self.platforms = load_level_data(level_1_data, platform_image)
+        self.platforms = load_level_data(Boss_fight_level, platform_image)
 
-        self.enemies_dict = build_enemies(level_1_data, self.screen, self.scroll, self.platforms)
+        self.enemies_dict = build_enemies(Boss_fight_level, self.screen, self.scroll, self.platforms)
         all_enemies = []
         for group in self.enemies_dict.values():
             if isinstance(group, list):
@@ -48,7 +48,7 @@ class Game:
             elif group:  
                 all_enemies.append(group)
 
-        self.objects_dict = build_objects(level_1_data, [self.hero])
+        self.objects_dict = build_objects(Boss_fight_level, [self.hero])
         self.objects = self.objects_dict['misc'] + \
                        ([self.objects_dict['bomb']] if self.objects_dict['bomb'] else []) + \
                        ([self.objects_dict['defuse_kit']] if self.objects_dict['defuse_kit'] else []) + \
@@ -99,8 +99,7 @@ class Game:
 
     def update(self):
         keys = pygame.key.get_pressed()
-        print(len(self.Power_ups))
-        print('here')
+       
         if self.enemies_dict.get('dragonlord'):
             self.enemies_dict['dragonlord'].Update(self.screen, self.scroll, self.shot_bullets, self.platforms)
 

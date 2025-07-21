@@ -164,7 +164,8 @@ multiplayer_data = {
 Boss_fight_level={
     'player_start': {'x': 58*64, 'y':400},
     'enemies': [
-        
+        {'type': 'dragonlord', 'x': 58 * TILE_SIZE - 200, 'y': 338}
+
     ],
 
     'objects': [
@@ -172,21 +173,7 @@ Boss_fight_level={
     ],
     'platforms': {
         'standard': [
-            {'x': 0, 'y': 8 * TILE_SIZE, 'tiles': 60},
-            {'x': -25 * TILE_SIZE, 'y': 1* TILE_SIZE, 'tiles': 20},
-            {'x': 35 * TILE_SIZE, 'y': 5 * TILE_SIZE, 'tiles': 6},
-            {'x': 43 * TILE_SIZE, 'y': 3 * TILE_SIZE, 'tiles': 10},
-            {'x': 62 * TILE_SIZE, 'y': 5 * TILE_SIZE, 'tiles': 6},
-            {'x': 67 * TILE_SIZE, 'y': 3 * TILE_SIZE, 'tiles': 3},
-            {'x': 60 * TILE_SIZE, 'y': 1 * TILE_SIZE, 'tiles': 5},
-            {'x': 48 * TILE_SIZE, 'y': -1 * TILE_SIZE, 'tiles': 10},
-            {'x': 31 * TILE_SIZE, 'y': 1 * TILE_SIZE, 'tiles': 10},
-            {'x': 40 * TILE_SIZE, 'y': -4 * TILE_SIZE, 'tiles': 6},
-            {'x': 17 * TILE_SIZE, 'y': 2 * TILE_SIZE, 'tiles': 10},
-            {'x': 14 * TILE_SIZE, 'y': -2 * TILE_SIZE, 'tiles': 6},
-            {'x': 3 * TILE_SIZE, 'y': -2 * TILE_SIZE, 'tiles': 7},
-            {'x': -8 * TILE_SIZE, 'y': -4 * TILE_SIZE, 'tiles': 10},
-            {'x': 4 * TILE_SIZE, 'y': -9 * TILE_SIZE, 'tiles': 30},
+         
 
 
 
