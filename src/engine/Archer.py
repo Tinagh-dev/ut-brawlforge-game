@@ -271,36 +271,66 @@ class Archer:
         if self.freezed:
             return
         self.is_moving_horizontally = False
+        if self.hero_creation_index==1:
+            if keys[pygame.K_a] and self.status not in ('shot', 'attack'):
+                self.move_left()
+                self.is_moving_horizontally = True
+            if keys[pygame.K_d] and self.status not in ('shot', 'attack'):
+                self.move_right()
+                self.is_moving_horizontally = True
+            if keys[pygame.K_w]:
+                self.jump()
 
-        if keys[pygame.K_h] and self.status not in ('shot', 'attack'):
-            self.move_left()
-            self.is_moving_horizontally = True
-        if keys[pygame.K_k] and self.status not in ('shot', 'attack'):
-            self.move_right()
-            self.is_moving_horizontally = True
-        if keys[pygame.K_u]:
-            self.jump()
+            if keys[pygame.K_f] and not self.shooting and self.status != 'attack':
+                self.shooting = True
+                self.status = 'shot'
+                self.current_frame_index = 0
+                self.shot_triggered = False
 
-        if keys[pygame.K_j] and not self.shooting and self.status != 'attack':
-            self.shooting = True
-            self.status = 'shot'
-            self.current_frame_index = 0
-            self.shot_triggered = False
+            if keys[pygame.K_e] and self.status not in ('attack', 'shot'):
+                self.status = 'attack'
+                self.current_frame_index = 0
+                self.attack_triggered = False
+                self.attack_targets = self.targets
 
-        if keys[pygame.K_i] and self.status not in ('attack', 'shot'):
-            self.status = 'attack'
-            self.current_frame_index = 0
-            self.attack_triggered = False
-            self.attack_targets = self.targets
+            if keys[pygame.K_q]:
+                self.call_drone()
 
-        if keys[pygame.K_o]:
-            self.call_drone()
+            if keys[pygame.K_LCTRL]:
+                self.activate_super_power()
+                
+            if keys[pygame.K_TAB]:
+                self.Send_teleport_request(gates)
+        if self.hero_creation_index==1:
+            if keys[pygame.K_LEFT] and self.status not in ('shot', 'attack'):
+                self.move_left()
+                self.is_moving_horizontally = True
+            if keys[pygame.K_RIGHT] and self.status not in ('shot', 'attack'):
+                self.move_right()
+                self.is_moving_horizontally = True
+            if keys[pygame.K_UP]:
+                self.jump()
 
-        if keys[pygame.K_l]:
-            self.activate_super_power()
-            
-        if keys[pygame.K_y]:
-            self.Send_teleport_request(gates)
+            if keys[pygame.K_RCTRL] and not self.shooting and self.status != 'attack':
+                self.shooting = True
+                self.status = 'shot'
+                self.current_frame_index = 0
+                self.shot_triggered = False
+
+            if keys[pygame.K_RALT] and self.status not in ('attack', 'shot'):
+                self.status = 'attack'
+                self.current_frame_index = 0
+                self.attack_triggered = False
+                self.attack_targets = self.targets
+
+            if keys[pygame.K_SLASH]:
+                self.call_drone()
+
+            if keys[pygame.K_RSHIFT]:
+                self.activate_super_power()
+                
+            if keys[pygame.K_KP_ENTER]:
+                self.Send_teleport_request(gates)
 
         if not self.is_moving_horizontally:
             self.stop_horizontal_movement()
