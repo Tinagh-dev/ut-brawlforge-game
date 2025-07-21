@@ -37,7 +37,8 @@ class Dragon_Lord:
 
         self.attacking = False
         self.attack_hits = 0
-        self.prompt = f"Dragon Lord has {self.health} HP. Player is at ({self.target.x_pos}, {self.target.y_pos})."
+        if self.target:
+            self.prompt = f"Dragon Lord has {self.health} HP. Player is at ({self.target.x_pos}, {self.target.y_pos})."
         self.status = 'idle'
         self.current_picture = None
         self.current_frame_index = 0
