@@ -742,6 +742,8 @@ class Ninja:
         if self.freezed:
             return
         if self.hero_creation_index==1:
+            if keys[pygame.K_e]:
+                self.attack()  
             if keys[pygame.K_a]:
                 self.move_left()
                 self.is_moving_horizontally = True
@@ -765,6 +767,8 @@ class Ninja:
                 self.Send_teleport_request(gate)
 
         if self.hero_creation_index==2:
+            if keys[pygame.K_RALT]:
+                self.attack()            
             if keys[pygame.K_LEFT]:
                 self.move_left()
                 self.is_moving_horizontally = True
@@ -788,8 +792,7 @@ class Ninja:
         if not self.is_moving_horizontally:
             self.stop_horizontal_movement()
                     # Add in handle_input
-        if keys[pygame.K_e]:
-            self.attack()
+
             
                 
     def attack(self):
