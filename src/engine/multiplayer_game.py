@@ -36,7 +36,10 @@ class Game_2:
         player_start_pos = multiplayer_data['player_start']
         player2_start_pos = multiplayer_data['player2_start']
 
-        self.hero = Archer
+        self.hero = Archer(
+            player_start_pos['x'], player_start_pos['y'],
+            [],1  # لیست targets بعداً ست می‌شود
+        )
         self.hero2=Roboman(player2_start_pos['x'], player2_start_pos['y'],
             screen_width, screen_height,
             None,None,2)

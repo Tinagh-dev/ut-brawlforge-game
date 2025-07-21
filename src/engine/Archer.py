@@ -168,6 +168,7 @@ class Archer:
 
         for drone in self.guard_drone:
             drone.Update(screen, offset, shot_bullets)
+            
 
         self.update_drone()
             
@@ -264,7 +265,7 @@ class Archer:
         if self.super_power_active and current_time - self.super_power_last_activation > self.super_power_duration:
             self.super_power_active = False
 
-    def handle_input(self, keys,gates):
+    def handle_input(self, keys,gates,shot_bullets,bullet_class,trigger_shutter):
         if self.freezed:
             return
         self.is_moving_horizontally = False
@@ -302,7 +303,7 @@ class Archer:
         if not self.is_moving_horizontally:
             self.stop_horizontal_movement()
 
-    def update_bullets(self, screen, global_bullet_list, platforms, targets,offset):
+    def update_bullets(self, screen, global_bullet_list, platforms, targets):
         
         for arrow in self.bullets[:]:
             if arrow not in global_bullet_list:
@@ -329,8 +330,7 @@ class Archer:
                     if arrow in global_bullet_list:
                         global_bullet_list.remove(arrow)
                     break
-        for drone in self.guard_drone:
-            drone.Update(screen, offset, global_bullet_list)
+
 
 
 
