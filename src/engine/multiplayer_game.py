@@ -8,6 +8,7 @@ from src.engine.explosion import Explosion
 from src.engine.camera import Camera
 from src.engine.input_handler import InputHandler
 from src.engine.Ninja import Ninja
+from src.engine.Archer import Archer
 from src.engine.Roboman import Roboman
 from src.engine.menu import PauseMenu
 from src.engine.power_ups import Power_up
@@ -35,11 +36,7 @@ class Game_2:
         player_start_pos = multiplayer_data['player_start']
         player2_start_pos = multiplayer_data['player2_start']
 
-        self.hero = Ninja(
-            player_start_pos['x'], player_start_pos['y'],
-            screen_width, screen_height,
-            [],1  # لیست targets بعداً ست می‌شود
-        )
+        self.hero = Archer
         self.hero2=Roboman(player2_start_pos['x'], player2_start_pos['y'],
             screen_width, screen_height,
             None,None,2)
