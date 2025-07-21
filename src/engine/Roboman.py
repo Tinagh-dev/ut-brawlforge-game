@@ -739,30 +739,47 @@ class Roboman:
         self.is_moving_horizontally = False
         if self.freezed:
             return
-
-        if keys[pygame.K_d]:
-            self.move_right()
-            self.is_moving_horizontally = True
-        if keys[pygame.K_a]:
-            self.move_left()
-            self.is_moving_horizontally = True
-        if keys[pygame.K_SPACE]:
-            if keys[pygame.K_LSHIFT]:
-                self.activate_jetpack()
-            else:
+        if self.hero_creation_index==1:
+            if keys[pygame.K_d]:
+                self.move_right()
+                self.is_moving_horizontally = True
+            if keys[pygame.K_a]:
+                self.move_left()
+                self.is_moving_horizontally = True
+            if keys[pygame.K_w]:
                 self.jump()
-        if keys[pygame.K_r]:
-            self.respawn()
-        if keys[pygame.K_t]:
-            self.Send_teleport_request(gate)
-        if keys[pygame.K_f]: # this one must change 
-            self.shoot(shot_bullets, bullet_class)
-            
-        if keys[pygame.K_g]:
-            self.call_drone()
-        if keys[pygame.K_q]:
-            self.shoot_rocket(shot_bullets, bullet_class)
-            
+            if keys[pygame.K_LSHIFT]:
+                self.activate_jetpack()  
+            if keys[pygame.K_TAB]:
+                self.Send_teleport_request(gate)
+            if keys[pygame.K_f]: 
+                self.shoot(shot_bullets, bullet_class)
+                
+            if keys[pygame.K_q]:
+                self.call_drone()
+            if keys[pygame.K_e]:
+                self.shoot_rocket(shot_bullets, bullet_class)
+
+        if self.hero_creation_index==2:        
+            if keys[pygame.K_LEFT]:
+                self.move_right()
+                self.is_moving_horizontally = True
+            if keys[pygame.K_RIGHT]:
+                self.move_left()
+                self.is_moving_horizontally = True
+            if keys[pygame.K_UP]:
+                self.jump()
+            if keys[pygame.K_PERIOD]:
+                self.activate_jetpack()  
+            if keys[pygame.K_RETURN]:
+                self.Send_teleport_request(gate)
+            if keys[pygame.K_RCTRL]: 
+                self.shoot(shot_bullets, bullet_class)
+                
+            if keys[pygame.K_SLASH]:
+                self.call_drone()
+            if keys[pygame.K_RALT]:
+                self.shoot_rocket(shot_bullets, bullet_class)            
             
             
     def call_drone(self):
