@@ -780,9 +780,9 @@ class Ninja:
                 self.Activate_Super_Power()
             if keys[pygame.K_RCTRL]:
                 self.shoot(shot_bullets, bullet_class)
-            if keys[pygame.K_TAB]:
+            if keys[pygame.K_RETURN]:
                 self.Send_teleport_request(gate)
-            if keys[pygame.K_p]:
+            if keys[pygame.K_SLASH]:
                 self.call_drone()
 
         if not self.is_moving_horizontally:
