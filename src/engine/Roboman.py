@@ -761,10 +761,10 @@ class Roboman:
                 self.shoot_rocket(shot_bullets, bullet_class)
 
         if self.hero_creation_index==2:        
-            if keys[pygame.K_LEFT]:
+            if keys[pygame.K_RIGHT]:
                 self.move_right()
                 self.is_moving_horizontally = True
-            if keys[pygame.K_RIGHT]:
+            if keys[pygame.K_LEFT]:
                 self.move_left()
                 self.is_moving_horizontally = True
             if keys[pygame.K_UP]:
