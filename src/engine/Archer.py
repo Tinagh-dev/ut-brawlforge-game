@@ -28,6 +28,8 @@ class Archer:
         self.jump_cooldown = 250
         self.double_jump_allowed = True
         self.has_defuse_kit=False
+        self.jump_sound= pygame.mixer.Sound(os.path.join(os.path.dirname(__file__), "..", "assets", "sounds", "Archer", "jump.MP3"))
+
 
         self.health_bar_frame =pygame.image.load("src/assets/images/Archer/health_bar_frame.png")
         self.health_bar = pygame.image.load("src/assets/images/Archer/health_bar.png")
@@ -168,7 +170,7 @@ class Archer:
 
         for drone in self.guard_drone:
             drone.Update(screen, offset, shot_bullets)
-            
+
 
         self.update_drone()
             
