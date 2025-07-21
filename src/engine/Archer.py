@@ -301,7 +301,7 @@ class Archer:
                 
             if keys[pygame.K_TAB]:
                 self.Send_teleport_request(gates)
-        if self.hero_creation_index==1:
+        if self.hero_creation_index==2:
             if keys[pygame.K_LEFT] and self.status not in ('shot', 'attack'):
                 self.move_left()
                 self.is_moving_horizontally = True
