@@ -37,10 +37,7 @@ class Dragon_Lord:
 
         self.attacking = False
         self.attack_hits = 0
-        if self.target:
-            self.prompt = f"Dragon Lord has {self.health} HP. Player is at ({self.target.x_pos}, {self.target.y_pos})."
-        else:
-            self.prompt = f"Dragon Lord has {self.health} HP. No target yet."       
+        self.prompt = f"Dragon Lord has {self.health} HP. Player is at ({self.target.x_pos}, {self.target.y_pos})."
         self.status = 'idle'
         self.current_picture = None
         self.current_frame_index = 0
@@ -222,11 +219,11 @@ class Dragon_Lord:
         
 
     def check_attack_collision(self):
-       # if self.hitbox.colliderect(self.target.hitbox):
-        #    if self.Look == 'right':
-         #       self.target.move_right(6)
-          #  else:
-           #     self.target.move_left(6)
+        if self.hitbox.colliderect(self.target.hitbox):
+            if self.Look == 'right':
+                self.target.move_right(6)
+            else:
+                self.target.move_left(6)
 
         if self.hitbox.colliderect(self.target.hitbox) and self.attack_hits < 3 and ((self.current_frame_index >= 4 and self.current_frame_index <= 10) or (self.current_frame_index >= 13 and self.current_frame_index <= 15)):
             self.target.health -= 30
@@ -234,7 +231,7 @@ class Dragon_Lord:
             self.prompt_type = "damage"
             self.last_damage_time = time.time()
 
-    def Update(self, screen, scroll, shot_bullets, platforms):
+    def Update(self, keys, platforms):
         self.update_animation()
         self.gravity()
         self.vertical_move()
