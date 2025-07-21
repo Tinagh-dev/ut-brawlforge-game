@@ -741,26 +741,49 @@ class Ninja:
         self.is_moving_horizontally = False
         if self.freezed:
             return
+        if self.hero_creation_index==1:
+            if keys[pygame.K_a]:
+                self.move_left()
+                self.is_moving_horizontally = True
+            if keys[pygame.K_d]:
+                self.move_right()
+                self.is_moving_horizontally = True
+            if keys[pygame.K_w]:
+                self.jump()
+            if keys[pygame.K_f]:
+                self.shoot(shot_bullets, bullet_class)
+            if keys[pygame.K_q]:
+                self.call_drone()
 
-        if keys[pygame.K_LEFT]:
-            self.move_left()
-            self.is_moving_horizontally = True
-        if keys[pygame.K_RIGHT]:
-            self.move_right()
-            self.is_moving_horizontally = True
-        if keys[pygame.K_UP]:
-            self.jump()
-        if keys[pygame.K_RSHIFT]:
-            if not self.Super_PowerFlag:
-                if trigger_shutter:
-                    trigger_shutter(strength=10, duration=1500)
-            self.Activate_Super_Power()
-        if keys[pygame.K_RCTRL]:
-            self.shoot(shot_bullets, bullet_class)
-        if keys[pygame.K_TAB]:
-            self.Send_teleport_request(gate)
-        if keys[pygame.K_p]:
-            self.call_drone()
+            if keys[pygame.K_LCTRL]:
+                if not self.Super_PowerFlag:
+                    if trigger_shutter:
+                        trigger_shutter(strength=10, duration=1500)
+                self.Activate_Super_Power()
+                
+            if keys[pygame.K_TAB]:
+                self.Send_teleport_request(gate)
+
+        if self.hero_creation_index==2:
+            if keys[pygame.K_LEFT]:
+                self.move_left()
+                self.is_moving_horizontally = True
+            if keys[pygame.K_RIGHT]:
+                self.move_right()
+                self.is_moving_horizontally = True
+            if keys[pygame.K_UP]:
+                self.jump()
+            if keys[pygame.K_RSHIFT]:
+                if not self.Super_PowerFlag:
+                    if trigger_shutter:
+                        trigger_shutter(strength=10, duration=1500)
+                self.Activate_Super_Power()
+            if keys[pygame.K_RCTRL]:
+                self.shoot(shot_bullets, bullet_class)
+            if keys[pygame.K_TAB]:
+                self.Send_teleport_request(gate)
+            if keys[pygame.K_p]:
+                self.call_drone()
 
         if not self.is_moving_horizontally:
             self.stop_horizontal_movement()
