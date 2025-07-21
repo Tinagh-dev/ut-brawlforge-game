@@ -329,7 +329,7 @@ class Archer:
             if keys[pygame.K_RSHIFT]:
                 self.activate_super_power()
                 
-            if keys[pygame.K_KP_ENTER]:
+            if keys[pygame.K_RETURN]:
                 self.Send_teleport_request(gates)
 
         if not self.is_moving_horizontally:
