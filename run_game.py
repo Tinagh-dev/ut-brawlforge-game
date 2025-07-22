@@ -4,6 +4,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 from config import screen_width, screen_height,explode_side_size,enenmy_health_bar_height,enenmy_health_bar_width
 from src.engine.game import Game
+from src.engine.menu import Menu, GameModeMenu, MapCharacterMenu,MultiplayerMapCharacterMenu
 from src.engine.multiplayer_game import Game_2
 from src.engine.menu import Menu
 
