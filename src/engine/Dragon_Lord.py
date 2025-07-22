@@ -3,7 +3,7 @@ import os
 from openai import OpenAI
 import threading
 import time
-from config import screen_height,screen_width,bossProfileSideSize
+from config import screen_height,screen_width,bossProfileSideSize,boss_healthBar_thickness
 from src.engine.flyingdemon import FlyingDemon
 
 client = OpenAI(
@@ -51,6 +51,7 @@ class Dragon_Lord:
         self.profile_picture = pygame.image.load("src/assets/images/Dragon_Lord/profile.png")
         self.profile_picture=pygame.transform.scale(self.profile_picture, (bossProfileSideSize, bossProfileSideSize))
         self.health_bar_frame=pygame.image.load("src/assets/images/Dragon_Lord/health_bar_frame.png")
+        self.health_bar=pygame.image.load("src/assets/images/Dragon_Lord/health_bar.png")
         self.health_bar_frame=pygame.transform.scale(self.health_bar_frame, (screen_width-bossProfileSideSize, bossProfileSideSize))
         self.max_health=self.health
         self.last_frame_update_time = pygame.time.get_ticks()
@@ -134,8 +135,12 @@ class Dragon_Lord:
         self.keep_talking = False
 
     def display(self, screen, offset):
+        if self.health < 0:
+            self.health=0
+        self.health_bar=pygame.transform.scale(self.health_bar, ((self.health/self.max_health)*(screen_width-bossProfileSideSize-2*boss_healthBar_thickness), bossProfileSideSize-2*boss_healthBar_thickness+26))
         screen.blit(self.profile_picture,(0,screen_height-bossProfileSideSize))
         screen.blit(self.health_bar_frame,(bossProfileSideSize,screen_height-bossProfileSideSize))
+        screen.blit(self.health_bar,(bossProfileSideSize+boss_healthBar_thickness,screen_height-bossProfileSideSize+boss_healthBar_thickness-13))        
         image = self.current_picture
         if self.Look == 'left':
             image = pygame.transform.flip(image, True, False)
