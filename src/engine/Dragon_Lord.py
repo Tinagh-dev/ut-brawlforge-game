@@ -57,6 +57,8 @@ class Dragon_Lord:
         self.health_bar=pygame.image.load("src/assets/images/Dragon_Lord/health_bar.png")
         self.health_bar_frame=pygame.transform.scale(self.health_bar_frame, (screen_width-bossProfileSideSize, bossProfileSideSize))
         self.max_health=self.health
+        self.dialog_frame=pygame.image.load("src/assets/images/Dragon_Lord/dialog_frame.png")
+        self.dialog_frame=pygame.transform.scale(self.dialog_frame, (screen_width-bossProfileSideSize, 115))
         self.last_frame_update_time = pygame.time.get_ticks()
         self.is_moving_horizontally = False
 
@@ -95,7 +97,7 @@ class Dragon_Lord:
         self.camera=None
         self.is_dying = False
         self.number_of_spotlight_activation=0
-        #self.start_dialog_loop()
+        self.start_dialog_loop()
     def get_prompt(self):
         if self.prompt_type == "attack":
             return f"Dragon Lord is unleashing a blazing punch at the player at ({self.target.x_pos}, {self.target.y_pos})."
@@ -127,8 +129,7 @@ class Dragon_Lord:
                 self.last_dialog_time = pygame.time.get_ticks()
             except Exception as e:
                 print(f"[Error getting dialog: {e}]")
-
-            time.sleep(8)
+                time.sleep(15)
             self.prompt_type = "idle"  
 
     def start_dialog_loop(self):
@@ -153,10 +154,11 @@ class Dragon_Lord:
 
         current_time = pygame.time.get_ticks()
         if self.last_dialog and (current_time - self.last_dialog_time < self.dialog_display_duration):
-            font = pygame.font.SysFont("arial", 20, bold=True)
+            font = pygame.font.SysFont("arial", 30, bold=True)
             text_surface = font.render(self.last_dialog, True, (0, 0, 0))  
             text_rect = text_surface.get_rect()
-            text_rect.midbottom = (bossProfileSideSize + (screen_width - bossProfileSideSize) // 2, screen_height - bossProfileSideSize - 10)
+            text_rect.midbottom = (bossProfileSideSize + (screen_width - bossProfileSideSize) // 2, screen_height - bossProfileSideSize - 30)
+            screen.blit(self.dialog_frame,(bossProfileSideSize-35,screen_height - bossProfileSideSize -120))
             screen.blit(text_surface, text_rect)
 
         for kid in self.flyingdemons:
