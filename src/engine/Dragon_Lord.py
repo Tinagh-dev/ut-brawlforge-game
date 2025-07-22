@@ -135,6 +135,8 @@ class Dragon_Lord:
         self.keep_talking = False
 
     def display(self, screen, offset):
+        if self.health < 0:
+            self.health=0
         self.health_bar=pygame.transform.scale(self.health_bar, ((self.health/self.max_health)*(screen_width-bossProfileSideSize-2*boss_healthBar_thickness), bossProfileSideSize-2*boss_healthBar_thickness+26))
         screen.blit(self.profile_picture,(0,screen_height-bossProfileSideSize))
         screen.blit(self.health_bar_frame,(bossProfileSideSize,screen_height-bossProfileSideSize))
