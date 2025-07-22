@@ -102,7 +102,7 @@ class NinjaGirl(Ninja):
             self.death_frames.append(
                 pygame.transform.scale(
                     pygame.image.load(
-                        os.path.join(base_path,f"Dead__00f{i}.png")
+                        os.path.join(base_path,f"Dead__00{i}.png")
                     ),
                     sizes[i]
                 )
