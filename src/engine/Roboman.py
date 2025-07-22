@@ -18,6 +18,7 @@ class Roboman:
         self.current_platform = None
         self.status="idle"
         self.horizontal_speed = 7  
+        self.trigger_shutter_callback=None
         self.jump_strenght = 20 
         self.freezed=False
         self.last_freezed=0

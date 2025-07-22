@@ -3,6 +3,7 @@ import os
 from openai import OpenAI
 import threading
 import time
+from config import screen_height,screen_width
 from src.engine.flyingdemon import FlyingDemon
 
 client = OpenAI(
@@ -48,6 +49,7 @@ class Dragon_Lord:
         self.current_frame_index = 0
         self.animation_speed = 150
         self.profile_picture = pygame.image.load("src/assets/images/Dragon_Lord/profile.png")
+        self.profile_picture=pygame.transform.scale(self.profile_picture, (70, 70))
 
         self.last_frame_update_time = pygame.time.get_ticks()
         self.is_moving_horizontally = False
@@ -130,7 +132,7 @@ class Dragon_Lord:
         self.keep_talking = False
 
     def display(self, screen, offset):
-        print(self.health)
+        screen.blit(self.profile_picture,(0,screen_height-70))
         image = self.current_picture
         if self.Look == 'left':
             image = pygame.transform.flip(image, True, False)
