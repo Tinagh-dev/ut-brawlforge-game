@@ -50,7 +50,9 @@ class Dragon_Lord:
         self.animation_speed = 150
         self.profile_picture = pygame.image.load("src/assets/images/Dragon_Lord/profile.png")
         self.profile_picture=pygame.transform.scale(self.profile_picture, (bossProfileSideSize, bossProfileSideSize))
-
+        self.health_bar_frame=pygame.image.load("src/assets/images/Dragon_Lord/health_bar_frame.png")
+        self.health_bar_frame=pygame.transform.scale(self.health_bar_frame, (screen_width-bossProfileSideSize, bossProfileSideSize))
+        self.max_health=self.health
         self.last_frame_update_time = pygame.time.get_ticks()
         self.is_moving_horizontally = False
 
@@ -133,6 +135,7 @@ class Dragon_Lord:
 
     def display(self, screen, offset):
         screen.blit(self.profile_picture,(0,screen_height-bossProfileSideSize))
+        screen.blit(self.health_bar_frame,(bossProfileSideSize,screen_height-bossProfileSideSize))
         image = self.current_picture
         if self.Look == 'left':
             image = pygame.transform.flip(image, True, False)
