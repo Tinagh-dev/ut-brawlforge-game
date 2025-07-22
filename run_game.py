@@ -1,4 +1,5 @@
 import pygame
+import sys
 import os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -61,45 +62,11 @@ while True:
                 continue
 
             selected_char_list, selected_map, _ = result 
-            player1_char_name = selected_char_list[0]
-            player2_char_name = selected_char_list[1]
-
-            if player1_char_name == "Roboman":
-                hero1 = Roboman(player1_start_pos['x'], player1_start_pos['y'],
-                                roboman_health_bar_frame, roboman_health_bar, hero_profile_picture,
-                                screen_width, screen_height, sounds=game_sounds)
-            elif player1_char_name == "NinjaGirl":
-                hero1 = NinjaGirl(player1_start_pos['x'], player1_start_pos['y'],
-                                  screen_width, screen_height, [], ninja_health_bar_frame, ninja_health_bar)
-            elif player1_char_name == "Ninja":
-                hero1 = Ninja(player1_start_pos['x'], player1_start_pos['y'],
-                              screen_width, screen_height, [], ninja_health_bar_frame, ninja_health_bar)
-            elif player1_char_name == "Archer":
-                hero1 = Archer(player1_start_pos['x'], player1_start_pos['y'],
-                               screen_width, screen_height, [], archer_health_bar_frame, archer_health_bar)
-
-            if player2_char_name == "Roboman":
-                hero2 = Roboman(player2_start_pos['x'], player2_start_pos['y'],
-                                roboman_health_bar_frame, roboman_health_bar, hero_profile_picture,
-                                screen_width, screen_height, sounds=game_sounds)
-            elif player2_char_name == "NinjaGirl":
-                hero2 = NinjaGirl(player2_start_pos['x'], player2_start_pos['y'],
-                                  screen_width, screen_height, [], ninja_health_bar_frame, ninja_health_bar)
-            elif player2_char_name == "Ninja":
-                hero2 = Ninja(player2_start_pos['x'], player2_start_pos['y'],
-                              screen_width, screen_height, [], ninja_health_bar_frame, ninja_health_bar)
-            elif player2_char_name == "Archer":
-                hero2 = Archer(player2_start_pos['x'], player2_start_pos['y'],
-                               screen_width, screen_height, [], archer_health_bar_frame, archer_health_bar)
+           
             game = Game_2(
                 screen,
                 platform_images,
-                background, explode_picture,
-                game_sounds,
-                ninja_health_bar_frame, ninja_health_bar,
-                roboman_health_bar_frame, roboman_health_bar,
-                hero_profile_picture, 
-                selected_map , hero1=hero1,hero2=hero2
+                background,selected_char_list[0],selected_char_list[1]
             )
 
         elif mode == "exit":
