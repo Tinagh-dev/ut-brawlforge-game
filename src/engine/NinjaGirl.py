@@ -14,9 +14,10 @@ class NinjaGirl(Ninja):
           
     def hurt(self):
         self.hurt_sound.play()
+        if self.health <= 0:
+            self.die()
 
     def load_girl_sprites(self):
-        # Replace this with code that loads the girl's custom animations
         base_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "images", "NinjaGirl")
         # Load Idle frames
         self.idle_frames = []
@@ -102,7 +103,7 @@ class NinjaGirl(Ninja):
             self.death_frames.append(
                 pygame.transform.scale(
                     pygame.image.load(
-                        os.path.join(base_path,f"Dead__00{i}.png")
+                        os.path.join(base_path,'death',f"Dead__00{i}.png")
                     ),
                     sizes[i]
                 )
