@@ -8,7 +8,7 @@ from src.engine.bullet import Bullet
 # bug : وقتی تیر انداز تیرش به تروریست بخوره روبات میمیره
 class Roboman:
 
-    def __init__(self, x, y, screen_width, screen_height, sounds=None, trigger_shutter_callback=None, hero_creation_index=1):
+    def __init__(self, x, y, screen_width, screen_height, hero_creation_index=1):
         self.x_pos = x
         self.y_pos = y
         self.hero_profile_picture = pygame.image.load("src/assets/images/RoboMan_pictures/hero_profile.png")
@@ -17,7 +17,6 @@ class Roboman:
         self.on_platform = False
         self.current_platform = None
         self.status="idle"
-        self.trigger_shutter_callback = trigger_shutter_callback
         self.horizontal_speed = 7  
         self.jump_strenght = 20 
         self.freezed=False
