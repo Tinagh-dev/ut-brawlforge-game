@@ -34,7 +34,7 @@ class Dragon_Lord:
         self.gravity_strenght = 1
         self.on_ground = False
         self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
-        self.health =1000
+        self.health =40
         self.max_health = 100
 
         self.attacking = False
@@ -69,10 +69,24 @@ class Dragon_Lord:
             pygame.transform.scale(pygame.image.load(os.path.join(base_path, "attack", f"{i}.png")), (w, 180))
             for i, w in enumerate([137,158,169,184,299,249,188,211,224,218,191,168,136,187,155,173])
         ]
-
+        #50
+        sizes=[(137,180),(165,187),(164,189),(159,190),(190,180),(178,170),(397,360),(425,530),(512,530),(515,540),(505,540),(582,530),(550,530),(518,530),(425,530),(347,530),(273,530),(279,530),(243,530),(243,530),(265,530),(220,360),(203,360),(157,360),(122,540),(118,540),(118,540),(132,540),(180,54)]
+        self.death_frames=[]
+        for i in range(29):
+            self.death_frames.append(
+                pygame.transform.scale(
+                    pygame.image.load(
+                        os.path.join(
+                            base_path,"death",f"{i}.png"
+                        )
+                    ),
+                    sizes[i]
+                    
+                )
+            )
         self.current_picture = self.idle_frames[0]
         self.camera=None
-
+        self.is_dying = False
         #self.start_dialog_loop()
         self.number_of_spotlight_activation=0
     def get_prompt(self):
@@ -132,6 +146,14 @@ class Dragon_Lord:
             return
 
         self.last_frame_update_time = current_time
+
+        if self.is_dying:
+            if self.current_frame_index < len(self.death_frames):
+                self.current_picture = self.death_frames[self.current_frame_index]
+                self.current_frame_index += 1
+            else:
+                self.current_picture = self.death_frames[-1]  # Stay on last death frame
+            return
 
         if self.status == 'attack':
             if self.current_frame_index < len(self.attack_frames):
@@ -246,6 +268,9 @@ class Dragon_Lord:
         self.vertical_move()
         self.horizontal_move()
         self.platforms_collisions(platforms)
+        if self.health <= 0 and not self.is_dying:
+            self.die()
+            return
         self.AI_behavior()
 
     def AI_behavior(self):
@@ -302,3 +327,14 @@ class Dragon_Lord:
             200
         )
         self.camera.screen.blit(self.spotlight_surface, (0, 0), special_flags=pygame.BLEND_RGBA_SUB)
+        
+        
+    def die(self):
+        self.status = 'death'
+        self.current_frame_index = 0
+        self.attacking = False
+        self.is_dying = True
+        self.keep_talking = False
+
+    
+    
