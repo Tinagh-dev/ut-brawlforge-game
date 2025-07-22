@@ -61,7 +61,7 @@ class Archer:
         self.last_guard_call = 0
         self.guard_drone = []
         self.drone_duration = 20000
-
+        self.HIT_COUNTER=0
         # Super Power Attributes
         self.super_power_active = False
         self.super_power_duration = 15000
@@ -102,7 +102,6 @@ class Archer:
             self.die()
 
     def display(self, screen, offset, shot_bullets):
-        #self.gravity()
         if self.health<0:
             self.health=0
         self.health_bar = pygame.transform.scale(
@@ -194,14 +193,14 @@ class Archer:
         self.melee_sound.play()
         self.shooting = True  # Reuse this flag to lock input
         self.HIT_PER_ATTACK=0
-
+        self.HIT_COUNTER=0
+        
     def update_animation(self, shot_bullets=None):
         if hasattr(self, 'DEAD') and self.DEAD:
             self.vertical_speed -= self.gravity_strenght
             self.y_pos -= self.vertical_speed
             self.hitbox.topleft = (self.x_pos, self.y_pos)
             self.current_picture = self.death_frames[-1]
-            self.y_pos = self.previous_center[1] - self.current_picture.get_height()
             return
 
         current_time = pygame.time.get_ticks()
@@ -269,15 +268,21 @@ class Archer:
 
                 self.current_picture = self.attack_frames[self.current_frame_index % len(self.attack_frames)]
 
-                if self.current_frame_index == 2:
-                    self.damage_nearby_targets()
-                    self.melee_sound.play()
+                self.damage_nearby_targets()
+                self.melee_sound.play()
                 if self.current_frame_index >= len(self.attack_frames) - 1:
                     self.status = 'idle'
                     self.shooting = False
 
             self.current_frame_index += 1
             self.update_attack()
+            if self.status=='attack':
+                for target in self.targets:
+                    if target.hitbox.colliderect(self.hitbox) and self.HIT_COUNTER==0:
+                        target.health-=30
+                        target.hurt()
+                        self.HIT_COUNTER+=1
+                        print('hit')
     def damage_nearby_targets(self):
         hitbox_range = pygame.Rect(
             self.x_pos - 40 if self.Look == 'left' else self.x_pos + self.width,
