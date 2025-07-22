@@ -47,6 +47,8 @@ class Dragon_Lord:
         self.current_picture = None
         self.current_frame_index = 0
         self.animation_speed = 150
+        self.profile_picture = pygame.image.load("src/assets/images/Dragon_Lord/profile.png")
+
         self.last_frame_update_time = pygame.time.get_ticks()
         self.is_moving_horizontally = False
 
