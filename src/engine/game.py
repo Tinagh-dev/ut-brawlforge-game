@@ -18,7 +18,7 @@ from src.engine.power_ups import Power_up
 class Game:
     def __init__(self, screen, platform_image, background,selected_char,selected_map
            ):
-
+        print(selected_map)
         self.screen = screen
         self.background = background
         self.clock = pygame.time.Clock()
@@ -28,8 +28,14 @@ class Game:
         self.explosions = []
         self.bullet_class = Bullet
         self.game_active = True
-
-        self.map=selected_map
+        if selected_map="level1":
+            self.map=level_1_data
+        if selected_map="level2":
+            self.map=level_2_data
+        if selected_map="level3":
+            self.map=level_3_data
+        if selected_map="level4":
+            self.map=level_4_data        
         self.shutter_strength = 0
         self.shutter_start_time = 0
         self.shutter_duration = 150
