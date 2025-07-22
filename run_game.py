@@ -64,11 +64,6 @@ while True:
             player1_char_name = selected_char_list[0]
             player2_char_name = selected_char_list[1]
 
-            player1_start_pos = levels_module.get_start_position(selected_map, player_index=1)
-            player2_start_pos = levels_module.get_start_position(selected_map, player_index=2) 
-
-            hero1 = None
-            hero2 = None
             if player1_char_name == "Roboman":
                 hero1 = Roboman(player1_start_pos['x'], player1_start_pos['y'],
                                 roboman_health_bar_frame, roboman_health_bar, hero_profile_picture,

@@ -9,6 +9,7 @@ from src.engine.camera import Camera
 from src.engine.input_handler import InputHandler
 from src.engine.Ninja import Ninja
 from src.engine.Archer import Archer
+from src.engine.NinjaGirl import NinjaGirl
 from src.engine.Roboman import Roboman
 from src.engine.menu import PauseMenu
 from src.engine.power_ups import Power_up
@@ -16,7 +17,7 @@ from src.levels import multiplayer_data, load_level_data, build_enemies, build_o
 
 class Game_2:
     def __init__(self, screen, platform_image, background              
-                ):
+               ,selected_char,selected_map ):
 
         self.screen = screen
         self.background = background
@@ -36,10 +37,28 @@ class Game_2:
         player_start_pos = multiplayer_data['player_start']
         player2_start_pos = multiplayer_data['player2_start']
 
-        self.hero = Archer(
-            player_start_pos['x'], player_start_pos['y'],
-            [],1  # لیست targets بعداً ست می‌شود
-        )
+        if selected_char == "Ninja":
+            self.hero = Ninja(
+                player_start_pos['x'], player_start_pos['y'],
+                screen_width, screen_height,
+                [],  # لیست targets بعداً ست می‌شود
+            )
+        elif selected_char == "Archer":
+            self.hero=Archer(player_start_pos['x'], player_start_pos['y'],
+            [],1)
+
+        elif selected_char == "NinjaGirl": 
+            self.hero=NinjaGirl(
+                player_start_pos['x'], player_start_pos['y'],
+                screen_width, screen_height,
+                []
+            ) 
+
+        else:
+            self.hero=Roboman(
+                player_start_pos['x'], player_start_pos['y'],
+                screen_width, screen_height
+            )
         self.hero2=Roboman(player2_start_pos['x'], player2_start_pos['y'],
             screen_width, screen_height,
             None,None,2)
