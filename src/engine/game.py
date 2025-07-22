@@ -41,7 +41,8 @@ class Game:
                 [],  # لیست targets بعداً ست می‌شود
             )
         elif selected_char == "Archer":
-            self.hero=Archer()
+            self.hero=Archer(player_start_pos['x'], player_start_pos['y'],
+            [],1)
 
         elif selected_char == "NinjaGirl": 
             self.hero=NinjaGirl() 
