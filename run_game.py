@@ -51,7 +51,7 @@ while True:
                 continue
 
             selected_char, selected_map, _ = result
-            game=Game(screen,platform_images,background)
+            game=Game(screen,platform_images,background,selected_char,selected_map)
         elif mode == "multi": 
             multi_player_menu = MultiplayerMapCharacterMenu(screen, background, hero_profile_picture) # تغییر اینجا
             result = multi_player_menu.run()
