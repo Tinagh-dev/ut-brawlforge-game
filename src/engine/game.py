@@ -29,6 +29,7 @@ class Game:
         self.bullet_class = Bullet
         self.game_active = True
 
+        self.map=selected_map
         self.shutter_strength = 0
         self.shutter_start_time = 0
         self.shutter_duration = 150
