@@ -43,7 +43,7 @@ class Ninja:
         self.width = Ninja_width
         self.height = Ninja_height
         self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
-        self.health = 1000
+        self.health = 100
         self.max_health = 100
         self.bullets = []
         self.last_shot_time = 0
@@ -205,6 +205,9 @@ class Ninja:
         self.SUPER_POWER_FLAG=False
         self.GUARD_DRONE_FLAG=False
         self.DOUBLE_JUMP_FLAG=False
+        
+        
+        self.DEAD=False
 
     
     def hurt(self):
@@ -212,8 +215,9 @@ class Ninja:
         if self.health <= 0:
             self.die()
     def die(self):
+        if self.DEAD:
+            return
         self.ALIVE = False
-        self.DEAD = True
         self.status = 'dead'
         self.current_frame_index = 0
         self.last_animation_state = 'death'
@@ -223,6 +227,7 @@ class Ninja:
         self.allow_move_left = False
         self.allow_move_right = False
         self.y_pos+=30        
+        self.previous_center = (self.x_pos + self.width // 2, self.y_pos + self.height)
              
     def display_health_bar(self, screen):
         if self.health<0:
@@ -311,23 +316,27 @@ class Ninja:
 
         self.display_health_bar(screen)
     def update_animation(self, shot_bullets):
+        if self.DEAD:
+            self.current_picture=self.death_frames[9]
+            self.y_pos=self.y_pos+118-self.current_picture.get_height()
         current_time = pygame.time.get_ticks()
 
         if not self.ALIVE:
             if self.current_frame_index < len(self.death_frames):
                 self.current_picture = self.death_frames[self.current_frame_index]
-                self.hitbox = pygame.Rect(
-                    self.x_pos, self.y_pos,
-                    self.death_frames[self.current_frame_index].get_width(),
-                    self.death_frames[self.current_frame_index].get_height()
-                )
+                new_width, new_height = self.current_picture.get_size()
+                if self.current_frame_index == 0:
+                    self.previous_center = (self.x_pos + self.width // 2, self.y_pos + self.height)
+                self.x_pos = self.previous_center[0] - new_width // 2
+                self.y_pos = self.previous_center[1] - new_height
+                self.hitbox = pygame.Rect(self.x_pos, self.y_pos, new_width, new_height)
+
                 if current_time - self.last_frame_update_time > self.frame_duration:
                     self.current_frame_index += 1
                     self.last_frame_update_time = current_time
-                    self.gravity()
             else:
                 self.current_picture = self.death_frames[-1]
-                self.gravity()
+                self.DEAD = True  
             return
 
         if self.freezed:
