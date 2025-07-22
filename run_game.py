@@ -24,6 +24,7 @@ except FileNotFoundError:
 try:
     background = pygame.image.load("src/assets/images/BrawlhalaBackground.jpg")
     background = pygame.transform.scale(background, (screen_width, screen_height))
+    hero_profile_picture = pygame.image.load("src/assets/images/hero_profile.png")   
     platform_image_path = "src/assets/images/"
     platform_images = {
         'left': pygame.image.load(os.path.join(platform_image_path, "platform_left.png")).convert_alpha(),
