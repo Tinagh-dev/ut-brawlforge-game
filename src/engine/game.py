@@ -45,7 +45,11 @@ class Game:
             [],1)
 
         elif selected_char == "NinjaGirl": 
-            self.hero=NinjaGirl() 
+            self.hero=NinjaGirl(
+                player_start_pos['x'], player_start_pos['y'],
+                screen_width, screen_height,
+                []
+            ) 
 
         else:
             self.hero=Roboman(
