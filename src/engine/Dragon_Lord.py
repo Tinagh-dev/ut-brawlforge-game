@@ -20,7 +20,7 @@ class Dragon_Lord:
         self.height = 180
         self.flyingdemons=[]
         self.target = target
-
+        self.hurt_sound=pygame.mixer.Sound(os.path.join(os.path.dirname(__file__), "..", "assets", "sounds", "boss", "boss hurt.mp3"))        
         self.on_platform = False
         self.current_platform = None
         self.horizontal_auto_speed = 0
@@ -353,7 +353,7 @@ class Dragon_Lord:
         self.previous_center = (self.x_pos + self.width // 2, self.y_pos + self.height)
         
     def hurt(self):
-        pass
+        self.hurt_sound.play()
 
     
     
