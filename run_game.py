@@ -42,7 +42,7 @@ while True:
 
     if menu_action == "start":
 
-        game = Game_2(
+        game = Game(
           screen,  
           platform_images,
           background
