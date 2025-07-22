@@ -102,7 +102,7 @@ class Archer:
             self.die()
 
     def display(self, screen, offset, shot_bullets):
-        self.gravity()
+        #self.gravity()
         if self.health<0:
             self.health=0
         self.health_bar = pygame.transform.scale(
@@ -546,7 +546,6 @@ class Archer:
                 
     def update(self,platforms,shot_bullets,targets,keys,gate,trigger_shutter=None):
         self.is_on_ground()
-        self.gravity()
         self.vertical_move()
         self.platforms_collisions(platforms)
         self.move_with_platform()
