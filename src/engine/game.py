@@ -48,7 +48,10 @@ class Game:
             self.hero=NinjaGirl() 
 
         else:
-            self.hero=Roboman()
+            self.hero=Roboman(
+                player_start_pos['x'], player_start_pos['y'],
+                screen_width, screen_height
+            )
 
         self.platforms = load_level_data(level_1_data, platform_image)
 
