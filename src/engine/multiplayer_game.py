@@ -17,7 +17,7 @@ from src.levels import multiplayer_data, load_level_data, build_enemies, build_o
 
 class Game_2:
     def __init__(self, screen, platform_image, background              
-               ,selected_char,selected_map ):
+               ,selected_char,selected_char2):
 
         self.screen = screen
         self.background = background
@@ -59,9 +59,28 @@ class Game_2:
                 player_start_pos['x'], player_start_pos['y'],
                 screen_width, screen_height
             )
-        self.hero2=Roboman(player2_start_pos['x'], player2_start_pos['y'],
-            screen_width, screen_height,
-            None,None,2)
+        if selected_char2 == "Ninja":
+            self.hero2 = Ninja(
+                player_start_pos['x'], player_start_pos['y'],
+                screen_width, screen_height,
+                [],  # لیست targets بعداً ست می‌شود
+            )
+        elif selected_char2 == "Archer":
+            self.hero2=Archer(player_start_pos['x'], player_start_pos['y'],
+            [],1)
+
+        elif selected_char2 == "NinjaGirl": 
+            self.hero2=NinjaGirl(
+                player_start_pos['x'], player_start_pos['y'],
+                screen_width, screen_height,
+                []
+            ) 
+
+        else:
+            self.hero2=Roboman(
+                player_start_pos['x'], player_start_pos['y'],
+                screen_width, screen_height
+            )
 
         self.platforms = load_level_data(multiplayer_data, platform_image)
         self.power_ups=[]
