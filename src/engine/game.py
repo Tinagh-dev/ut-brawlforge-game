@@ -12,7 +12,7 @@ from src.engine.Roboman import Roboman
 from src.engine.NinjaGirl import NinjaGirl
 from src.engine.Archer import Archer
 from src.engine.menu import PauseMenu
-from src.levels import level_1_data,level_2_data,level_3_data,level_4_data, load_level_data, build_enemies, build_objects, apply_targets_to_enemies
+from src.levels import level_1_data,level_2_data,level_3_data,level_4_data, load_level_data, build_enemies, build_objects, apply_targets_to_enemies,Boss_fight_level
 from src.engine.power_ups import Power_up
 
 class Game:

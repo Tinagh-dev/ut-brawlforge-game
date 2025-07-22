@@ -43,7 +43,7 @@ class Ninja:
         self.width = Ninja_width
         self.height = Ninja_height
         self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
-        self.health = 100
+        self.health = 1000
         self.max_health = 100
         self.bullets = []
         self.last_shot_time = 0
