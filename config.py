@@ -5,7 +5,7 @@ info = pygame.display.Info()
 
 screen_width = info.current_w
 screen_height = info.current_h
-
+bossProfileSideSize=200
 profileSideSize=100
 jump_strenght=22
 gravity_strenght=1
