@@ -23,7 +23,7 @@ except FileNotFoundError:
     print("Warning: Icon image not found. Continuing without icon.")
 
 try:
-    background = pygame.image.load("src/assets/images/BrawlhalaBackground.jpg")
+    background = pygame.image.load("src/assets/images/city1.png")
     background = pygame.transform.scale(background, (screen_width, screen_height))
     hero_profile_picture = pygame.image.load("src/assets/images/hero_profile.png")   
     platform_image_path = "src/assets/images/"
