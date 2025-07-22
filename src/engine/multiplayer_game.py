@@ -169,8 +169,11 @@ class Game_2:
         for platform in self.platforms:
             platform.update()
 
-        self.scroll[0] += ((self.hero.hitbox.centerx - screen_width / 2 - self.scroll[0])) / 15
-        self.scroll[1] += (self.hero.hitbox.centery - screen_height / 2 - self.scroll[1]) / 15
+        mid_x = (self.hero.hitbox.centerx + self.hero2.hitbox.centerx) / 2
+        mid_y = (self.hero.hitbox.centery + self.hero2.hitbox.centery) / 2
+
+        self.scroll[0] += (mid_x - screen_width / 2 - self.scroll[0]) / 15
+        self.scroll[1] += (mid_y - screen_height / 2 - self.scroll[1]) / 15
 
         for obj in self.objects:
             obj.Update(self.screen, self.scroll)
