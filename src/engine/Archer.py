@@ -29,7 +29,8 @@ class Archer:
         self.double_jump_allowed = True
         self.has_defuse_kit=False
         self.jump_sound= pygame.mixer.Sound(os.path.join(os.path.dirname(__file__), "..", "assets", "sounds", "Archer", "jump.MP3"))
-
+        self.shoot_sound=pygame.mixer.Sound(os.path.join(os.path.dirname(__file__), "..", "assets", "sounds", "Archer", "shoot.mp3"))
+        self.melee_sound=pygame.mixer.Sound(os.path.join(os.path.dirname(__file__), "..", "assets", "sounds", "Archer", "melee.mp3"))
         self.DEAD=False
         self.ALIVE=True
         self.health_bar_frame =pygame.image.load("src/assets/images/Archer/health_bar_frame.png")
@@ -190,6 +191,7 @@ class Archer:
         self.status = 'attack'
         self.current_frame_index = 0
         self.attack_triggered = False
+        self.melee_sound.play()
         self.shooting = True  # Reuse this flag to lock input
         self.HIT_PER_ATTACK=0
 
@@ -269,7 +271,7 @@ class Archer:
 
                 if self.current_frame_index == 2:
                     self.damage_nearby_targets()
-
+                    self.melee_sound.play()
                 if self.current_frame_index >= len(self.attack_frames) - 1:
                     self.status = 'idle'
                     self.shooting = False
@@ -285,7 +287,7 @@ class Archer:
         for target in self.targets:
             if hasattr(target, 'hitbox') and hitbox_range.colliderect(target.hitbox):
                 target.health -= 50
-                print('damage')
+                target.hurt()
 
     def shoot_arrow(self, shot_bullets):
         arrow_x = self.x_pos + (self.width if self.Look == 'right' else -30)
@@ -294,6 +296,7 @@ class Archer:
         arrow_image = self.firedarrow_pic if self.super_power_active else self.arrow_pic
         damage = 35 if self.super_power_active else 25
         new_arrow = Arrow(arrow_x, arrow_y, direction, arrow_image, damage)
+        self.shoot_sound.play()
         self.bullets.append(new_arrow)
         shot_bullets.append(new_arrow)
         

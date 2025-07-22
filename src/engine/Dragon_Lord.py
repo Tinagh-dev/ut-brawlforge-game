@@ -3,6 +3,7 @@ import os
 from openai import OpenAI
 import threading
 import time
+from config import screen_height,screen_width,bossProfileSideSize
 from src.engine.flyingdemon import FlyingDemon
 
 client = OpenAI(
@@ -20,7 +21,7 @@ class Dragon_Lord:
         self.height = 180
         self.flyingdemons=[]
         self.target = target
-
+        self.hurt_sound=pygame.mixer.Sound(os.path.join(os.path.dirname(__file__), "..", "assets", "sounds", "boss", "boss hurt.mp3"))        
         self.on_platform = False
         self.current_platform = None
         self.horizontal_auto_speed = 0
@@ -47,6 +48,11 @@ class Dragon_Lord:
         self.current_picture = None
         self.current_frame_index = 0
         self.animation_speed = 150
+        self.profile_picture = pygame.image.load("src/assets/images/Dragon_Lord/profile.png")
+        self.profile_picture=pygame.transform.scale(self.profile_picture, (bossProfileSideSize, bossProfileSideSize))
+        self.health_bar_frame=pygame.image.load("src/assets/images/Dragon_Lord/health_bar_frame.png")
+        self.health_bar_frame=pygame.transform.scale(self.health_bar_frame, (screen_width-bossProfileSideSize, bossProfileSideSize))
+        self.max_health=self.health
         self.last_frame_update_time = pygame.time.get_ticks()
         self.is_moving_horizontally = False
 
@@ -128,7 +134,8 @@ class Dragon_Lord:
         self.keep_talking = False
 
     def display(self, screen, offset):
-        print(self.health)
+        screen.blit(self.profile_picture,(0,screen_height-bossProfileSideSize))
+        screen.blit(self.health_bar_frame,(bossProfileSideSize,screen_height-bossProfileSideSize))
         image = self.current_picture
         if self.Look == 'left':
             image = pygame.transform.flip(image, True, False)
@@ -353,7 +360,7 @@ class Dragon_Lord:
         self.previous_center = (self.x_pos + self.width // 2, self.y_pos + self.height)
         
     def hurt(self):
-        pass
+        self.hurt_sound.play()
 
     
     
