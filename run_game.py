@@ -51,50 +51,7 @@ while True:
                 continue
 
             selected_char, selected_map, _ = result
-            player_start_pos = levels_module.get_start_position(selected_map,player_index = 1)
-
-            main_character = None
-            if selected_char == "Roboman":
-                main_character = Roboman(
-                    player_start_pos['x'], player_start_pos['y'],
-                    roboman_health_bar_frame, roboman_health_bar, hero_profile_picture,
-                    screen_width, screen_height,
-                    sounds=game_sounds,
-                    trigger_shutter_callback=None 
-                )
-            elif selected_char == "NinjaGirl":
-                main_character = NinjaGirl(
-                    player_start_pos['x'], player_start_pos['y'],
-                    screen_width, screen_height,
-                    [], # targets
-                    ninja_health_bar_frame, ninja_health_bar
-                )
-            elif selected_char == "Ninja":
-                main_character = Ninja(
-                    player_start_pos['x'], player_start_pos['y'],
-                    screen_width, screen_height,
-                    [], # targets
-                    ninja_health_bar_frame, ninja_health_bar
-                )
-            elif selected_char == "Archer":
-                main_character = Archer(
-                    player_start_pos['x'], player_start_pos['y'],
-                    screen_width, screen_height, 
-                    [], # targets
-                    archer_health_bar_frame, archer_health_bar
-                )
-
-            game = Game(
-                screen, hero_profile_picture, ghost, ghost2,
-                platform_images, background, explode_picture,
-                health_bar_green, health_bar_red, hero_profile_picture,
-                roboman_health_bar_frame, roboman_health_bar,
-                game_sounds, ninja_health_bar_frame, ninja_health_bar,
-                archer_health_bar_frame, archer_health_bar,
-                main_character=main_character,
-                selected_map=selected_map
-            )
-
+            game=Game(screen,platform_images,background)
         elif mode == "multi": 
             multi_player_menu = MultiplayerMapCharacterMenu(screen, background, hero_profile_picture) # تغییر اینجا
             result = multi_player_menu.run()
