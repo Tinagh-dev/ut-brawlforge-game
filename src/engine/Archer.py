@@ -29,7 +29,8 @@ class Archer:
         self.double_jump_allowed = True
         self.has_defuse_kit=False
         self.jump_sound= pygame.mixer.Sound(os.path.join(os.path.dirname(__file__), "..", "assets", "sounds", "Archer", "jump.MP3"))
-
+        self.shoot_sound=pygame.mixer.Sound(os.path.join(os.path.dirname(__file__), "..", "assets", "sounds", "Archer", "shoot.mp3"))
+        self.melee_sound=pygame.mixer.Sound(os.path.join(os.path.dirname(__file__), "..", "assets", "sounds", "Archer", "melee.mp3"))
 
         self.health_bar_frame =pygame.image.load("src/assets/images/Archer/health_bar_frame.png")
         self.health_bar = pygame.image.load("src/assets/images/Archer/health_bar.png")
@@ -184,6 +185,7 @@ class Archer:
         self.status = 'attack'
         self.current_frame_index = 0
         self.attack_triggered = False
+        self.melee_sound.play()
         self.shooting = True  # Reuse this flag to lock input
 
     def update_animation(self,shot_bullets):
@@ -253,6 +255,7 @@ class Archer:
         arrow_image = self.firedarrow_pic if self.super_power_active else self.arrow_pic
         damage = 35 if self.super_power_active else 25
         new_arrow = Arrow(arrow_x, arrow_y, direction, arrow_image, damage)
+        self.shoot_sound.play()
         self.bullets.append(new_arrow)
         shot_bullets.append(new_arrow)
         
