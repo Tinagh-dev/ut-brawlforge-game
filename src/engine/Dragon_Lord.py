@@ -34,7 +34,7 @@ class Dragon_Lord:
         self.gravity_strenght = 1
         self.on_ground = False
         self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
-        self.health =40
+        self.health =1000
         self.max_health = 100
 
         self.attacking = False

@@ -222,14 +222,7 @@ class Archer:
                 self.current_picture = self.death_frames[-1]
                 self.DEAD = True
 
-                # Ensure character is aligned with ground/platform
-                if not self.on_ground:
-                    for platform in self.current_platforms_reference:
-                        if self.hitbox.colliderect(platform.rect):
-                            self.y_pos = platform.y_pos - self.hitbox.height
-                            break
-                else:
-                    self.y_pos += 10  # drop gently if nothing detected
+            
             return
 
         if self.freezed:
