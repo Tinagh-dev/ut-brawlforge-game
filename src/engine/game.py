@@ -12,7 +12,7 @@ from src.engine.Roboman import Roboman
 from src.engine.NinjaGirl import NinjaGirl
 from src.engine.Archer import Archer
 from src.engine.menu import PauseMenu
-from src.levels import level_1_data, load_level_data, build_enemies, build_objects, apply_targets_to_enemies
+from src.levels import level_1_data,level_2_data,level_3_data,level_4_data, load_level_data, build_enemies, build_objects, apply_targets_to_enemies
 from src.engine.power_ups import Power_up
 
 class Game:
@@ -28,19 +28,19 @@ class Game:
         self.explosions = []
         self.bullet_class = Bullet
         self.game_active = True
-        if selected_map="level1":
+        if selected_map=="level1":
             self.map=level_1_data
-        if selected_map="level2":
+        if selected_map=="level2":
             self.map=level_2_data
-        if selected_map="level3":
+        if selected_map=="level3":
             self.map=level_3_data
-        if selected_map="level4":
+        if selected_map=="level4":
             self.map=level_4_data        
         self.shutter_strength = 0
         self.shutter_start_time = 0
         self.shutter_duration = 150
 
-        player_start_pos = level_1_data['player_start']
+        player_start_pos = self.map['player_start']
         if selected_char == "Ninja":
             self.hero = Ninja(
                 player_start_pos['x'], player_start_pos['y'],
@@ -64,9 +64,9 @@ class Game:
                 screen_width, screen_height
             )
 
-        self.platforms = load_level_data(level_1_data, platform_image)
+        self.platforms = load_level_data(self.map, platform_image)
 
-        self.enemies_dict = build_enemies(level_1_data, self.screen, self.scroll, self.platforms)
+        self.enemies_dict = build_enemies(self.map, self.screen, self.scroll, self.platforms)
         all_enemies = []
         for group in self.enemies_dict.values():
             if isinstance(group, list):
@@ -74,7 +74,7 @@ class Game:
             elif group:  
                 all_enemies.append(group)
 
-        self.objects_dict = build_objects(level_1_data, [self.hero])
+        self.objects_dict = build_objects(self.map, [self.hero])
         self.objects = self.objects_dict['misc'] + \
                        ([self.objects_dict['bomb']] if self.objects_dict['bomb'] else []) + \
                        ([self.objects_dict['defuse_kit']] if self.objects_dict['defuse_kit'] else []) + \
