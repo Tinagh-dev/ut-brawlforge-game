@@ -94,3 +94,15 @@ class NinjaGirl(Ninja):
             pygame.image.load(os.path.join(base_path,"super power.png")),
             (118,118)
         )
+        
+        sizes=[(70,118),(83,118),(93,108),(102,90),(104,70),(118,78),(118,73),(118,78),(118,78),(118,79)]
+        self.death_frames=[]
+        for i in range(10):
+            self.death_frames.append(
+                pygame.transform.scale(
+                    pygame.image.load(
+                        os.path.join(base_path,f"Dead__00f{i}.png")
+                    ),
+                    sizes[i]
+                )
+            )
