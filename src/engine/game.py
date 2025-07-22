@@ -45,7 +45,7 @@ class Game:
             self.hero = Ninja(
                 player_start_pos['x'], player_start_pos['y'],
                 screen_width, screen_height,
-                [],  # لیست targets بعداً ست می‌شود
+                [],1  # لیست targets بعداً ست می‌شود
             )
         elif selected_char == "Archer":
             self.hero=Archer(player_start_pos['x'], player_start_pos['y'],
@@ -55,13 +55,13 @@ class Game:
             self.hero=NinjaGirl(
                 player_start_pos['x'], player_start_pos['y'],
                 screen_width, screen_height,
-                []
+                [],1
             ) 
 
         else:
             self.hero=Roboman(
                 player_start_pos['x'], player_start_pos['y'],
-                screen_width, screen_height
+                screen_width, screen_height,1
             )
 
         self.platforms = load_level_data(self.map, platform_image)
