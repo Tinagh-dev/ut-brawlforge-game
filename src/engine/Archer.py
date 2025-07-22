@@ -221,6 +221,15 @@ class Archer:
             else:
                 self.current_picture = self.death_frames[-1]
                 self.DEAD = True
+
+                # Ensure character is aligned with ground/platform
+                if not self.on_ground:
+                    for platform in self.current_platforms_reference:
+                        if self.hitbox.colliderect(platform.rect):
+                            self.y_pos = platform.y_pos - self.hitbox.height
+                            break
+                else:
+                    self.y_pos += 10  # drop gently if nothing detected
             return
 
         if self.freezed:
@@ -283,14 +292,13 @@ class Archer:
                         target.hurt()
                         self.HIT_COUNTER+=1
                         print('hit')
+                        
+                        
+        self.hitbox=pygame.Rect(self.x_pos,self.y_pos,self.current_picture.get_width(),self.current_picture.get_height())
     def damage_nearby_targets(self):
-        hitbox_range = pygame.Rect(
-            self.x_pos - 40 if self.Look == 'left' else self.x_pos + self.width,
-            self.y_pos,
-            50, 100
-        )
+        
         for target in self.targets:
-            if hasattr(target, 'hitbox') and hitbox_range.colliderect(target.hitbox):
+            if hasattr(target, 'hitbox') and self.hitbox.colliderect(target.hitbox):
                 target.health -= 50
                 target.hurt()
 
@@ -590,6 +598,8 @@ class Archer:
         self.allow_move_right = False
         self.AllowJump_flag = False if hasattr(self, 'AllowJump_flag') else None
         self.previous_center = (self.x_pos + self.width // 2, self.y_pos + self.height)
+        self.y_pos+=60
+        
                 
     
 
