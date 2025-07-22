@@ -100,11 +100,11 @@ class Dragon_Lord:
         self.start_dialog_loop()
     def get_prompt(self):
         if self.prompt_type == "attack":
-            return f"Dragon Lord is unleashing a blazing punch at the player at ({self.target.x_pos}, {self.target.y_pos})."
+            return f"Dragon Lord is unleashing a blazing punch at the player at ({self.target.x_pos}, {self.target.y_pos}).  (maximum number of words = 8)"
         elif self.prompt_type == "damage":
-            return f"Dragon Lord landed a fiery hit! Player health is now {self.target.health}."
+            return f"Dragon Lord landed a fiery hit! Player health is now {self.target.health}. (maximum number of words = 8)"
         else:
-            return f"Dragon Lord has {self.health} HP. Player is at ({self.target.x_pos}, {self.target.y_pos})."
+            return f"Dragon Lord has {self.health} HP. Player is at ({self.target.x_pos}, {self.target.y_pos}). (maximum number of words = 8)"
     def say_dialog_loop(self):
         while self.keep_talking:
             try:
