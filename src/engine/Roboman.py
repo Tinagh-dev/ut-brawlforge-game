@@ -154,6 +154,19 @@ class Roboman:
                 print(f"Error: Roboman jump shhot frame 'JumpShoot ({i}).png' not found at {img_path}. Check path.")
                 self.JumpShoot_frames.append(pygame.Surface((70, 118)))
                 print(img_path)
+        sizes=[(73,118),(84,118),(90,100),(145,90),(133,90),(110,61),(118,56),(118,52),(118,53),(118,53)]      
+        self.death_frames=[]
+        for i in range(1,11):
+            self.death_frames.append(pygame.transform.scale(
+                pygame.image.load(
+                    os.path.join(
+                        base_path,
+                        "death",
+                        f"Dead ({i}).png"
+                    )
+                ),
+                sizes[i-1]
+            ))
             
         img_path = os.path.join(base_path, f"jetpack.png")
         self.jetpack_frame=pygame.image.load(img_path)
@@ -213,6 +226,10 @@ class Roboman:
         self.last_rocket_shot=0
         self.rocket_reload_duration=6000
         
+        
+        
+        self.DEAD=False
+        self.ALIVE=True
 
         self.current_picture = self.picture
         self.current_frame_index = 0
@@ -248,6 +265,27 @@ class Roboman:
         
     def hurt(self):
         self.hurt_sound.play()
+        if self.health <= 0:
+            self.die()
+            
+    def die(self):
+        if hasattr(self, "DEAD") and self.DEAD:
+            return
+        self.ALIVE = False
+        self.status = 'dead'
+        self.current_frame_index = 0
+        self.last_animation_state = 'death'
+        self.vertical_speed = 0
+        self.on_ground = True
+        self.allow_move_left = False
+        self.allow_move_right = False
+        self.y_pos += 30
+        self.previous_center = (self.x_pos + self.width // 2, self.y_pos + self.height)
+        self.DEAD = True
+        if self.current_platform:
+            self.y_pos = self.current_platform.y_pos - self.height
+        else:
+            self.y_pos = self.screen_height - self.height - 10 
         
     def display(self, screen, offset, shot_bullets):
         if self.health<0:
@@ -262,16 +300,13 @@ class Roboman:
             (health_bar_lenght + (2 * roboman_health_bar_frame_thickness), profileSideSize)
         )
 
-        # Determine main character image and vertical position
         display_picture = self.current_picture
         y = self.y_pos
 
-        # Show super power visual effect if recently activated
         if self.super_power_active and pygame.time.get_ticks() - self.super_power_display_start < 1500:
             display_picture = self.super_power_effect
-            y -= 20  # Offset visual effect upward
+            y -= 20 
 
-        # Blit character with facing direction
         if self.Look == 'right':
             screen.blit(display_picture, (self.x_pos - offset[0], y - offset[1]))
         else:
@@ -331,14 +366,38 @@ class Roboman:
         screen.blit(self.roboman_health_bar_frame, (bar_x, bar_y))
         screen.blit(self.roboman_health_bar, (health_x, health_y))
         screen.blit(pygame.transform.scale(self.hero_profile_picture, (profileSideSize, profileSideSize)), (profile_x, profile_y))
-    def update_animation(self,shot_bullets):
-        if self.freezed:
-            self.current_picture=self.freezed_img
-            return
+    def update_animation(self, shot_bullets):
         current_time = pygame.time.get_ticks()
+
+        if hasattr(self, "DEAD") and self.DEAD:
+            if hasattr(self, "death_frames") and self.death_frames:
+                if self.current_frame_index < len(self.death_frames):
+                    self.current_picture = self.death_frames[self.current_frame_index]
+                    new_width, new_height = self.current_picture.get_size()
+                    if self.current_frame_index == 0:
+                        self.previous_center = (self.x_pos + self.width // 2, self.y_pos + self.height)
+                    self.x_pos = self.previous_center[0] - new_width // 2
+                    self.y_pos = self.previous_center[1] - new_height
+                    self.hitbox = pygame.Rect(self.x_pos, self.y_pos, new_width, new_height)
+
+                    if current_time - self.last_frame_update_time > 100:
+                        self.current_frame_index += 1
+                        self.last_frame_update_time = current_time
+                else:
+                    self.current_picture = self.death_frames[-1]
+                    self.y_pos=self.y_pos+118-self.current_picture.get_height()
+            else:
+                self.current_picture = self.idle_frames[0]  # fallback
+            return
+
+        if self.freezed:
+            self.current_picture = self.freezed_img
+            return
+        
         if self.jetpack_active and self.jetpack_frame:
             self.current_picture = self.jetpack_frame
             return
+
         if self.JumpShoot and self.JumpShoot_frames:
             elapsed_time = current_time - self.shooting_animation_start_time
             if current_time - self.last_frame_update_time > self.jump_shoot_animation_speed:
@@ -348,7 +407,7 @@ class Roboman:
                 if self.last_jump_shoot_index == len(self.JumpShoot_frames) - 1:
                     self.JumpShoot = False
             return
-        
+
         if not self.on_ground and self.current_platform is None:
             if self.frame_flag:
                 if current_time - self.last_frame_update_time > self.animation_speed:
@@ -358,48 +417,44 @@ class Roboman:
                         self.last_frame_update_time = current_time
                     else:
                         self.frame_flag = False
-                        self.current_frame_index = 8  
+                        self.current_frame_index = 8
                         self.current_picture = self.Jump_frames[8]
             else:
                 self.current_picture = self.Jump_frames[8]
             return
-                 
+
         elif self.RunShoot:
             elapsed_time = current_time - self.shooting_animation_start_time
             if elapsed_time >= self.shooting_animation_duration:
                 self.is_shooting = False
-                self.RunShoot=False
+                self.RunShoot = False
                 self.current_frame_index = 0
                 return
             if self.is_shooting:
                 if current_time - self.last_frame_update_time > self.animation_speed:
-                    self.current_frame_index =(self.Last_RunShoot_frame_index + int((elapsed_time / self.animation_speed)) % len(self.RunShoot_frames))%len(self.RunShoot_frames)
+                    self.current_frame_index = (self.Last_RunShoot_frame_index + int((elapsed_time / self.animation_speed)) % len(self.RunShoot_frames)) % len(self.RunShoot_frames)
                     self.current_picture = self.RunShoot_frames[self.current_frame_index]
-                    self.Last_RunShoot_frame_index=self.current_frame_index
+                    self.Last_RunShoot_frame_index = self.current_frame_index
                     self.last_frame_update_time = current_time
                 return
-            
+
         elif self.is_shooting and self.shoot_frames:
             elapsed_time = current_time - self.shooting_animation_start_time
-
             if elapsed_time >= self.shooting_animation_duration:
                 self.is_shooting = False
                 self.current_frame_index = 0
                 return
-
-            if self.is_shooting:
-                if current_time - self.last_frame_update_time > self.animation_speed:
-                    self.current_frame_index = int((elapsed_time / self.animation_speed)) % len(self.shoot_frames)
-                    self.current_picture = self.shoot_frames[self.current_frame_index]
-                    self.last_frame_update_time = current_time
-                return
+            if current_time - self.last_frame_update_time > self.animation_speed:
+                self.current_frame_index = int((elapsed_time / self.animation_speed)) % len(self.shoot_frames)
+                self.current_picture = self.shoot_frames[self.current_frame_index]
+                self.last_frame_update_time = current_time
+            return
 
         if self.is_moving_horizontally and self.run_frames:
             if self.last_animation_state != 'running':
                 self.current_frame_index = 0
                 self.last_frame_update_time = current_time
                 self.last_animation_state = 'running'
-
             if current_time - self.last_frame_update_time > self.animation_speed:
                 self.current_frame_index = (self.current_frame_index + 1) % len(self.run_frames)
                 self.current_picture = self.run_frames[self.current_frame_index]
@@ -409,13 +464,13 @@ class Roboman:
                 self.current_frame_index = 0
                 self.last_frame_update_time = current_time
                 self.last_animation_state = 'idle'
-
             if current_time - self.last_frame_update_time > self.animation_speed:
                 self.current_frame_index = (self.current_frame_index + 1) % len(self.idle_frames)
                 self.current_picture = self.idle_frames[self.current_frame_index]
                 self.last_frame_update_time = current_time
         else:
-            print("Roboman frames didnt detected")
+            print("Roboman frames not detected")
+
 
     def stop_horizontal_movement(self):
         self.is_moving_horizontally = False
@@ -736,6 +791,8 @@ class Roboman:
         
         
     def handle_input(self, keys, gate, shot_bullets, bullet_class,trigger_shutter):
+        if not self.ALIVE:
+            return
         self.is_moving_horizontally = False
         if self.freezed:
             return
@@ -799,18 +856,23 @@ class Roboman:
                 
 
                 
-    def update(self,platforms,shot_bullets,targets,keys,gate,trigger_shutter=None):
+    def update(self, platforms, shot_bullets, targets, keys, gate, trigger_shutter=None):
+        if hasattr(self, "ALIVE") and not self.ALIVE:
+            self.update_animation(shot_bullets)
+            return
+
+        self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.current_picture.get_width(), self.current_picture.get_height())
+
         self.is_on_ground()
         self.gravity()
         self.vertical_move()
         self.platforms_collisions(platforms)
         self.move_with_platform()
         self.jump_under_platform(platforms)
-        self.update_animation()
-        self.update_bullets(shot_bullets,targets)
-        self.handle_input(keys, gate, shot_bullets, Bullet, trigger_shutter=None)
+        self.update_animation(shot_bullets)
+        self.update_bullets(shot_bullets, targets)
+        self.handle_input(keys, gate, shot_bullets, Bullet, trigger_shutter)
         self.update_drone()
-        
   
 
         
