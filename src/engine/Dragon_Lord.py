@@ -27,6 +27,9 @@ class Dragon_Lord:
         self.horizontal_auto_speed = 0
         self.allow_move_right = True
         self.allow_move_left = True
+        self.last_dialog = ""
+        self.last_dialog_time = 0  
+        self.dialog_display_duration = 5000 
         self.Look = 'right'
         self.horizontal_speed = 4
         self.vertical_speed = 0
@@ -54,6 +57,8 @@ class Dragon_Lord:
         self.health_bar=pygame.image.load("src/assets/images/Dragon_Lord/health_bar.png")
         self.health_bar_frame=pygame.transform.scale(self.health_bar_frame, (screen_width-bossProfileSideSize, bossProfileSideSize))
         self.max_health=self.health
+        self.dialog_frame=pygame.image.load("src/assets/images/Dragon_Lord/dialog_frame.png")
+        self.dialog_frame=pygame.transform.scale(self.dialog_frame, (screen_width-bossProfileSideSize, 115))
         self.last_frame_update_time = pygame.time.get_ticks()
         self.is_moving_horizontally = False
 
@@ -92,7 +97,7 @@ class Dragon_Lord:
         self.camera=None
         self.is_dying = False
         self.number_of_spotlight_activation=0
-        #self.start_dialog_loop()
+        self.start_dialog_loop()
     def get_prompt(self):
         if self.prompt_type == "attack":
             return f"Dragon Lord is unleashing a blazing punch at the player at ({self.target.x_pos}, {self.target.y_pos})."
@@ -119,11 +124,12 @@ class Dragon_Lord:
                     max_tokens=50,
                     temperature=0.7
                 )
+                self.last_dialog = response.choices[0].message.content.strip()
                 print("Dragon Lord says:", response.choices[0].message.content.strip())
+                self.last_dialog_time = pygame.time.get_ticks()
             except Exception as e:
                 print(f"[Error getting dialog: {e}]")
-
-            time.sleep(8)
+                time.sleep(15)
             self.prompt_type = "idle"  
 
     def start_dialog_loop(self):
@@ -145,7 +151,16 @@ class Dragon_Lord:
         if self.Look == 'left':
             image = pygame.transform.flip(image, True, False)
         screen.blit(image, (self.x_pos - offset[0], self.y_pos - offset[1]))
-        
+
+        current_time = pygame.time.get_ticks()
+        if self.last_dialog and (current_time - self.last_dialog_time < self.dialog_display_duration):
+            font = pygame.font.SysFont("arial", 20, bold=True)
+            text_surface = font.render(self.last_dialog, True, (0, 0, 0))  
+            text_rect = text_surface.get_rect()
+            text_rect.midbottom = ((boss_healthBar_thickness*2)-60+bossProfileSideSize + (screen_width - bossProfileSideSize) // 2, screen_height - bossProfileSideSize - 55)
+            screen.blit(self.dialog_frame,(bossProfileSideSize-35,screen_height - bossProfileSideSize -120))
+            screen.blit(text_surface, text_rect)
+
         for kid in self.flyingdemons:
             kid.display(screen,offset)
 

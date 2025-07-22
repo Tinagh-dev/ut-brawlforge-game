@@ -18,7 +18,6 @@ from src.engine.power_ups import Power_up
 class Game:
     def __init__(self, screen, platform_image, background,selected_char,selected_map
            ):
-        print(selected_map)
         self.screen = screen
         self.background = background
         self.clock = pygame.time.Clock()
@@ -125,8 +124,6 @@ class Game:
 
     def update(self):
         keys = pygame.key.get_pressed()
-        print(len(self.Power_ups))
-        print('here')
         if self.enemies_dict.get('dragonlord'):
             self.enemies_dict['dragonlord'].Update(self.screen, self.scroll, self.shot_bullets, self.platforms)
 
