@@ -2,8 +2,8 @@ from src.engine.Ninja import Ninja
 import os
 import pygame
 class NinjaGirl(Ninja):
-    def __init__(self, x, y, screen_width, screen_height, attack_targets, health_bar_frame=None, health_bar=None):
-        super().__init__(x, y, screen_width, screen_height, attack_targets, health_bar_frame, health_bar)
+    def __init__(self, x, y, screen_width, screen_height, attack_targets):
+        super().__init__(x, y, screen_width, screen_height, attack_targets)
         self.load_girl_sprites()
         self.ninja_health_bar=pygame.image.load("src/assets/images/NinjaGirl/health_bar.png")
         self.ninja_health_bar_frame =pygame.image.load("src/assets/images/NinjaGirl/health_bar_frame.png")
