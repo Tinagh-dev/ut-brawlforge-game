@@ -231,6 +231,7 @@ class Archer:
                 self.current_picture = self.attack_frames[self.current_frame_index % len(self.attack_frames)]
                 if self.current_frame_index == 2 and not getattr(self, 'attack_triggered', False):
                     self.damage_nearby_targets()
+                    self.melee_sound.play()
                     self.attack_triggered = True
                 if self.current_frame_index >= len(self.attack_frames) - 1:
                     self.status = 'idle'
@@ -247,6 +248,7 @@ class Archer:
         for target in self.targets:
             if hasattr(target, 'hitbox') and hitbox_range.colliderect(target.hitbox):
                 target.health -= 50
+                target.hurt()
 
     def shoot_arrow(self, shot_bullets):
         arrow_x = self.x_pos + (self.width if self.Look == 'right' else -30)
