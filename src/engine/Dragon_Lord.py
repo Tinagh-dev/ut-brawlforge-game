@@ -154,10 +154,10 @@ class Dragon_Lord:
 
         current_time = pygame.time.get_ticks()
         if self.last_dialog and (current_time - self.last_dialog_time < self.dialog_display_duration):
-            font = pygame.font.SysFont("arial", 16, bold=True)
+            font = pygame.font.SysFont("arial", 20, bold=True)
             text_surface = font.render(self.last_dialog, True, (0, 0, 0))  
             text_rect = text_surface.get_rect()
-            text_rect.midbottom = ((boss_healthBar_thickness*2)+bossProfileSideSize + (screen_width - bossProfileSideSize) // 2, screen_height - bossProfileSideSize - 45)
+            text_rect.midbottom = ((boss_healthBar_thickness*2)-60+bossProfileSideSize + (screen_width - bossProfileSideSize) // 2, screen_height - bossProfileSideSize - 55)
             screen.blit(self.dialog_frame,(bossProfileSideSize-35,screen_height - bossProfileSideSize -120))
             screen.blit(text_surface, text_rect)
 
