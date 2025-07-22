@@ -8,12 +8,15 @@ from src.engine.explosion import Explosion
 from src.engine.camera import Camera
 from src.engine.input_handler import InputHandler
 from src.engine.Ninja import Ninja
+from src.engine.Roboman import Roboman
+from src.engine.NinjaGirl import NinjaGirl
+from src.engine.Archer import Archer
 from src.engine.menu import PauseMenu
 from src.levels import level_1_data, load_level_data, build_enemies, build_objects, apply_targets_to_enemies
 from src.engine.power_ups import Power_up
 
 class Game:
-    def __init__(self, screen, platform_image, background,
+    def __init__(self, screen, platform_image, background,selected_char,selected_map
            ):
 
         self.screen = screen
@@ -31,12 +34,20 @@ class Game:
         self.shutter_duration = 150
 
         player_start_pos = level_1_data['player_start']
+        if selected_char == "Ninja":
+            self.hero = Ninja(
+                player_start_pos['x'], player_start_pos['y'],
+                screen_width, screen_height,
+                [],  # لیست targets بعداً ست می‌شود
+            )
+        elif selected_char == "Archer":
+            self.hero=Archer()
 
-        self.hero = Ninja(
-            player_start_pos['x'], player_start_pos['y'],
-            screen_width, screen_height,
-            [],  # لیست targets بعداً ست می‌شود
-        )
+        elif selected_char == "NinjaGirl": 
+            self.hero=NinjaGirl() 
+
+        else:
+            self.hero=Roboman()
 
         self.platforms = load_level_data(level_1_data, platform_image)
 
