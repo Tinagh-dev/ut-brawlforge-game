@@ -9,6 +9,7 @@ from src.engine.bullet import Bullet
 class Roboman:
 
     def __init__(self, x, y, screen_width, screen_height, hero_creation_index=1):
+        self.frame_address=None
         self.x_pos = x
         self.y_pos = y
         self.hero_profile_picture = pygame.image.load("src/assets/images/RoboMan_pictures/hero_profile.png")
@@ -373,6 +374,7 @@ class Roboman:
             if hasattr(self, "death_frames") and self.death_frames:
                 if self.current_frame_index < len(self.death_frames):
                     self.current_picture = self.death_frames[self.current_frame_index]
+                    self.frame_address=["death_frames",self.current_frame_index]
                     new_width, new_height = self.current_picture.get_size()
                     if self.current_frame_index == 0:
                         self.previous_center = (self.x_pos + self.width // 2, self.y_pos + self.height)
@@ -385,17 +387,21 @@ class Roboman:
                         self.last_frame_update_time = current_time
                 else:
                     self.current_picture = self.death_frames[-1]
+                    self.frame_address=["death_frames",self.current_frame_index]
                     self.y_pos=self.y_pos+118-self.current_picture.get_height()
             else:
                 self.current_picture = self.idle_frames[0]  # fallback
+                self.frame_address=["idle_frames",0]
             return
 
         if self.freezed:
             self.current_picture = self.freezed_img
+            self.frame_address=["freezed_img",-2]
             return
 
         if self.jetpack_active and self.jetpack_frame:
             self.current_picture = self.jetpack_frame
+            self.frame_address=["jetpack_frame",-2]
             return
 
         if self.JumpShoot and self.JumpShoot_frames:
@@ -403,6 +409,7 @@ class Roboman:
             if current_time - self.last_frame_update_time > self.jump_shoot_animation_speed:
                 self.last_jump_shoot_index = (self.last_jump_shoot_index + 1) % len(self.JumpShoot_frames)
                 self.current_picture = self.JumpShoot_frames[self.last_jump_shoot_index]
+                self.frame_address=["JumpShoot_frames",self.last_jump_shoot_index]
                 self.last_frame_update_time = current_time
                 if self.last_jump_shoot_index == len(self.JumpShoot_frames) - 1:
                     self.JumpShoot = False
@@ -414,13 +421,17 @@ class Roboman:
                     if self.current_frame_index < 8:
                         self.current_frame_index += 1
                         self.current_picture = self.Jump_frames[self.current_frame_index]
+                        self.frame_address=["Jump_frames",self.current_frame_index]
                         self.last_frame_update_time = current_time
                     else:
                         self.frame_flag = False
                         self.current_frame_index = 8
                         self.current_picture = self.Jump_frames[8]
+                        self.frame_address=['Jump_frames',8]
             else:
                 self.current_picture = self.Jump_frames[8]
+                self.frame_address=['Jump_frames',8]
+                
             return
 
         elif self.RunShoot:
@@ -434,6 +445,7 @@ class Roboman:
                 if current_time - self.last_frame_update_time > self.animation_speed:
                     self.current_frame_index = (self.Last_RunShoot_frame_index + int((elapsed_time / self.animation_speed)) % len(self.RunShoot_frames)) % len(self.RunShoot_frames)
                     self.current_picture = self.RunShoot_frames[self.current_frame_index]
+                    self.frame_address=["RunShoot_frames",self.current_frame_index]
                     self.Last_RunShoot_frame_index = self.current_frame_index
                     self.last_frame_update_time = current_time
                 return
@@ -447,6 +459,7 @@ class Roboman:
             if current_time - self.last_frame_update_time > self.animation_speed:
                 self.current_frame_index = int((elapsed_time / self.animation_speed)) % len(self.shoot_frames)
                 self.current_picture = self.shoot_frames[self.current_frame_index]
+                self.frame_address=["shoot_frames",self.current_frame_index]
                 self.last_frame_update_time = current_time
             return
 
@@ -458,6 +471,7 @@ class Roboman:
             if current_time - self.last_frame_update_time > self.animation_speed:
                 self.current_frame_index = (self.current_frame_index + 1) % len(self.run_frames)
                 self.current_picture = self.run_frames[self.current_frame_index]
+                self.frame_address=["run_frames",self.current_frame_index]
                 self.last_frame_update_time = current_time
         elif self.idle_frames:
             if self.last_animation_state != 'idle':
@@ -467,6 +481,7 @@ class Roboman:
             if current_time - self.last_frame_update_time > self.animation_speed:
                 self.current_frame_index = (self.current_frame_index + 1) % len(self.idle_frames)
                 self.current_picture = self.idle_frames[self.current_frame_index]
+                self.frame_address=["idle_frames",self.current_frame_index]
                 self.last_frame_update_time = current_time
         else:
             print("Roboman frames not detected")
@@ -871,7 +886,16 @@ class Roboman:
         self.handle_input(keys, gate, shot_bullets, Bullet, trigger_shutter)
         self.update_drone()
 
-
+    def serialize(self):
+        return{
+            "x_pos":self.x_pos,
+            "y_pos":self.y_pos,
+            "Look":self.Look,
+            "health":self.health,
+            "frame list address":self.frame_address[0],
+            "frame_index":self.frame_address[1]
+            
+        }
 
 
 
