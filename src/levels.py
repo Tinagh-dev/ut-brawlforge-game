@@ -373,9 +373,6 @@ multiplayer_data = {
 
     'objects': [
 
-        {'type': 'teleportgate', 'x1': 58 * TILE_SIZE, 'y1': 363, 'x2': 58 * TILE_SIZE + 1400, 'y2': 43},
-        {'type': 'pumpkin', 'x': 58 * TILE_SIZE + 100, 'y': 400 - 270},
-        {'type': 'powerbox', 'x': 58 * TILE_SIZE + 700, 'y': 465}
     ],
     'platforms': {
         'standard': [
