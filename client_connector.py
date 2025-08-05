@@ -143,18 +143,22 @@ if __name__ == '__main__':
             msg = connector.client_socket.recv(1024).decode()
             print(f"[SERVER] {msg}")
             
-            if msg == "setup_complete":
+            if msg.startswith("creation_index:"):
+                my_index = int(msg.split(":")[1])
+                print(f"[CLIENT] My creation index: {my_index}")
+
+            elif msg == "setup_complete":
                 print("[CLIENT] Starting local game client...")
-                type=int(input("Enter your hero type:\n1 _ Roboman\n2_Ninja\n3_ NinjaGirl\n4_Archer\n"))
-                map={1:"Roboman",2:"Ninja",3:"NinjaGirl",4:"Archer"}
-                type=map[type]
+                type = int(input("Enter your hero type:\n1 _ Roboman\n2_Ninja\n3_ NinjaGirl\n4_Archer\n"))
+                hero_map = {1: "Roboman", 2: "Ninja", 3: "NinjaGirl", 4: "Archer"}
+                type = hero_map[type]
                 print("game_client created")
                 game_client = Client(
-                connector.client_socket,  
-                connector.username,
-                connector.client_id,
-                hero_type=type
-            ) 
+                    connector.client_socket,
+                    connector.username,
+                    connector.client_id,
+                    hero_type=type                    
+                )
                 break
         game_client.start()
     except KeyboardInterrupt:

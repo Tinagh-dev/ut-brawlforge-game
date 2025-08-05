@@ -141,6 +141,12 @@ class Server:
                         if player_count == required_players:
                             print(f"[SERVER] Game {creator_id} is ready to start with {player_count} players.")
                             game_type_str = "1v1" if game_type == "1" else "2v2"
+                            for idx, p in enumerate(session['players']):
+                                try:
+                                    p['socket'].sendall(f"creation_index:{idx}".encode())
+                                except:
+                                    pass
+                            pygame.time.wait(1000)    
                             for p in session['players']:
                                 try:
                                     p['socket'].sendall(b"Game is starting") 
